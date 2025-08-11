@@ -1,0 +1,1 @@
+first create two folder sthen init both folder and then add the file in the second folder 

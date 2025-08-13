@@ -1,0 +1,26 @@
+@keyframes mover {
+  0% {
+    background-position: 0px 0px;
+  }
+  25% {
+    background-position: 350px 650px;
+  }
+  50% {
+    background-position: 850px 350px;
+  }
+  100% {
+    background-position: -550px -350px;
+  }
+}
+
+@keyframes wrong {
+  0% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}

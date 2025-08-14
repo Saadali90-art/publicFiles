@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
-import { SignModel, Publish } from "../Model/model.js";
+import SignModel from "../Model/SignInModel.js";
 import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv";
 
 // ====================== LOG IN SECTION =====================
 
@@ -32,10 +33,13 @@ const Login = async (req, res) => {
     if (await verifyLogin(data)) {
       let result = await SignModel.findOne({ email: data.email });
 
-      let userinfo = { name: result.name, email: result.email };
+      dotenv.config();
+      let secretkey = process.env.secretkey;
 
-      let secretkey = "54321";
-      let token = await jsonwebtoken.sign(userinfo, secretkey);
+      let token = await jsonwebtoken.sign(
+        { name: result.name, userId: result.userId },
+        secretkey
+      );
 
       res.status(200).json({ message: "Done", token: token });
     } else {

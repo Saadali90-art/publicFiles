@@ -18,13 +18,14 @@ const Dashboard = () => {
   // ====================== GETTING DATA FROM DB =============================
 
   const getData = async () => {
+    let token = localStorage.getItem("tokenuserin");
+
     let reqOpt = {
       method: "GET",
-      headers: { "Content-Type": "text/json" },
+      headers: { "Content-Type": "text/json", tokenuser: token },
     };
 
     let result = await fetch("http://127.0.0.1:8000/user/dashboard", reqOpt);
-    console.log(result);
     let response = await result.json();
 
     if (result.status === 200) {
@@ -61,23 +62,14 @@ const Dashboard = () => {
   // ================ HANDLING THE ORE INFO PAGE AND GIVING THEM DATA =======================
 
   const handlemore = (index) => {
-    console.log(userData[index]);
     setmoredata(userData[index]);
   };
-
-  useEffect(() => {
-    console.log(moredata);
-  }, [moredata]);
 
   // ======================== CALLING THE DATA FUNCTION ===============================
 
   useEffect(() => {
     getData();
   }, []);
-
-  useEffect(() => {
-    console.log("this is user data", userData);
-  }, [userData]);
 
   return (
     <div style={{ fontFamily: "Montserrat, sans-serif" }}>

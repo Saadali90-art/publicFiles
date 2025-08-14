@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
-import { SignModel } from "../Model/model.js";
+import SignModel from "../Model/SignInModel.js";
+import crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv";
 
 // ==============VERIFYING DATA IF THEY ARE PREVIOUS PRESENT ===================
 const verify = async (data) => {
@@ -24,17 +26,30 @@ const sendData = async (req, res) => {
   const genSalt = await bcrypt.genSalt();
   let password = await bcrypt.hash(req.body.password, genSalt);
 
+  // =========== MAKING THE USER ID
+
+  let userId = crypto
+    .createHash("sha256")
+    .update(name + email)
+    .digest("hex")
+    .slice(0, 13);
+
   // ============= JWS TOKEN
 
-  let data = { name, email, password, phone };
+  let data = { userId, name, email, password, phone };
 
   if (await verify(data)) {
     try {
       let result = await SignModel.insertOne(data);
       console.log("Data Sended TO DB");
 
-      let secretkey = "54321";
-      let token = await jsonwebtoken.sign(result._id.toString(), secretkey);
+      dotenv.config();
+      let secretkey = process.env.secretkey;
+
+      let token = await jsonwebtoken.sign(
+        { name: result.name, userId: result.userId },
+        secretkey
+      );
 
       res.status(200).json({ message: "Data Sended TO DB", token: token });
     } catch (error) {

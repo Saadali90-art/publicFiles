@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import "../animation.css";
 import Carousel from "./subcomponent/1.Home/Carousel";
 import Navigation from "./subcomponent/1.Home/Navigation";
 import WebNovels from "./subcomponent/1.Home/WebNovels";
 import TopPicks from "./subcomponent/1.Home/TopPicks";
 import { images, topPicks, novelinfo } from "./db/data.js";
-import { UNSAFE_useFogOFWarDiscovery } from "react-router-dom";
+import { SignData } from "../Context/SignContext.jsx";
 
 const HomePage = () => {
   // ===================== FUNCTIONS CHANGING VARIABLES ==========================
+
+  let { setsigndata } = useContext(SignData);
+
   const [signin, setsignin] = useState(null);
   const [showpop, setshowpop] = useState(false);
-  const [dashdata, setdashdata] = useState([]);
 
   const [current, setcurrent] = useState(() => {
     let savedata = localStorage.getItem("current");
@@ -40,16 +42,16 @@ const HomePage = () => {
       let reqOpt = {
         method: "GET",
         headers: {
-          "Content-Type": "text/json",
+          "Content-Type": "application/json",
           authorization: token,
         },
       };
 
-      let result = await fetch("http://127.0.0.1:8000", reqOpt);
+      let result = await fetch("http://127.0.0.1:8000/", reqOpt);
+      let response = await result.json();
 
       if (result.ok) {
-        let response = await result.json();
-        setsignin(response);
+        setsignin(response.message);
       }
     }
   };
@@ -81,24 +83,14 @@ const HomePage = () => {
     }
   };
 
-  // ====================== Getting  DASHBOARD DATA ========================
-
-  const getDashboard = async () => {
-    let reqOpt = {
-      method: "GET",
-      headers: { "Content-Type": "text/json" },
-    };
-
-    let result = await fetch("http://127.0.0.1:8000/dashhome", reqOpt);
-    console.log(result);
-    let response = await result.json();
-    console.log(response);
-  };
-
   useEffect(() => {
     getSignUp();
-    getDashboard();
   }, []);
+
+  useEffect(() => {
+    console.log(signin);
+    setsigndata(signin);
+  }, [signin]);
 
   return (
     <div
@@ -110,7 +102,7 @@ const HomePage = () => {
       {/* =================   NAVIGATION BAR -==========================  */}
 
       <nav className="w-[100%] bg-white fixed top-0 z-20">
-        <Navigation signin={signin} deletepopup={deletepopup} />
+        <Navigation deletepopup={deletepopup} />
         <div className="flex-grow h-[2px] bg-[#eaeaea]"></div>
       </nav>
 

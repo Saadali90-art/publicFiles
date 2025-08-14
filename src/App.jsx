@@ -7,6 +7,7 @@ import Publish from "./Components/Publish";
 import Dashboard from "./Components/Dashboard";
 import MoreDetails from "./Components/MoreDetails";
 import Cart from "./Components/Cart";
+import PrivateAccess from "./Components/PrivateAccess";
 
 const App = () => {
   return (
@@ -17,11 +18,35 @@ const App = () => {
         <Route path="/signup" element={<SignUp />}></Route>
 
         <Route path="/user">
-          <Route path="dashboard" element={<Dashboard />}></Route>
-          <Route path="publish" element={<Publish />}></Route>
-          <Route path="dashboard/more" element={<MoreDetails />}></Route>
-          <Route path="cart" element={<Cart />}></Route>
+          <Route
+            path="dashboard"
+            element={
+              <PrivateAccess>
+                <Dashboard />
+              </PrivateAccess>
+            }
+          ></Route>
+
+          <Route
+            path="publish"
+            element={
+              <PrivateAccess>
+                <Publish />
+              </PrivateAccess>
+            }
+          ></Route>
+
+          <Route
+            path="cart"
+            element={
+              <PrivateAccess>
+                <Cart />
+              </PrivateAccess>
+            }
+          ></Route>
         </Route>
+
+        <Route path="/user/dashboard/more" element={<MoreDetails />}></Route>
       </Routes>
     </Router>
   );

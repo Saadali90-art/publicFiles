@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
-import { SignModel, Publish } from "../Model/model.js";
+import SignModel from "../Model/SignInModel.js";
 import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv";
 
 // ========================= DELETING THE USER DATA ================================
 
@@ -8,7 +9,8 @@ const deleteUser = async (req, res) => {
   let data = req.headers.token;
 
   try {
-    let secretkey = "54321";
+    dotenv.config();
+    let secretkey = process.env.secretkey;
     let tokendata = await jsonwebtoken.verify(data, secretkey);
 
     await SignModel.deleteOne({ _id: tokendata });

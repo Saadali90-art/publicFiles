@@ -19,10 +19,12 @@ const Publish = () => {
   // ============================== SENDING DATA TO DB ========================
 
   const sendData = async (data) => {
+    let token = localStorage.getItem("tokenuserin");
+
     let reqOpt = {
       method: "POST",
       body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", tokenuser: token },
     };
 
     let result = await fetch("http://127.0.0.1:8000/user/publish", reqOpt);

@@ -1,11 +1,26 @@
 import bcrypt from "bcrypt";
-import { SignModel, Publish } from "../Model/model.js";
+import Publish from "../Model/PublishModel.js";
 import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv";
 
 // =========================== DATA ADDING OF THE BOOKS OF USER ==============================
-const PublishOne = async (req, res, next) => {
+const PublishOne = async (req, res) => {
   let { title, category, gender, description, image } = req.body;
-  let data = { title, category, gender, description, image };
+  let token = req.headers.tokenuser;
+
+  dotenv.config();
+  let secretkey = process.env.secretkey;
+
+  let tokeninfo = await jsonwebtoken.verify(token, secretkey);
+
+  let data = {
+    userId: tokeninfo.userId,
+    title,
+    category,
+    gender,
+    description,
+    image,
+  };
 
   if (
     title === "" ||

@@ -24,7 +24,7 @@ const SignUp = () => {
       body: infodata,
     };
 
-    let result = await fetch("http://127.0.0.1:8000", reqOpt);
+    let result = await fetch("http://127.0.0.1:8000/", reqOpt);
 
     let response = await result.json();
 

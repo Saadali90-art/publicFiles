@@ -1,12 +1,11 @@
 import express from "express";
 import sendData from "../controller/SignUp.js";
-import getSignIn from "../controller/HomeSignin.js";
+import getSignIn from "../controller/UserDataSignIn.js";
 import deleteUser from "../controller/DeleteUser.js";
 import Login from "../controller/Login.js";
 import getPublish from "../controller/Dashboard.js";
 import PublishOne from "../controller/Publish.js";
-import getDashHome from "../controller/dashhome.js";
-import authentication from "../middleware/auth.js";
+import ProtectedPages from "../controller/Protect.js";
 
 let router = express.Router();
 
@@ -18,10 +17,10 @@ router.delete("/", deleteUser);
 
 router.post("/login", Login);
 
-router.get("/user/dashboard", authentication, getPublish);
-
-router.get("/dashhome", getDashHome);
+router.get("/user/dashboard", getPublish);
 
 router.post("/user/publish", PublishOne);
+
+router.get("/protect", ProtectedPages);
 
 export default router;

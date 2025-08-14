@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navigation from "./subcomponent/1.Home/Navigation";
 import { CiStar } from "react-icons/ci";
@@ -14,10 +14,6 @@ const MoreDetails = () => {
   let rating = Math.random() * (5 - 1) + 1;
   if (rating > 4.8) rating = 5;
   let stararr = Array.from({ length: 5 });
-
-  useEffect(() => {
-    console.log(rating);
-  }, [rating]);
 
   return (
     <div className="select-none">

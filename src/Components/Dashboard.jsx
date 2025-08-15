@@ -72,7 +72,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div style={{ fontFamily: "Montserrat, sans-serif" }}>
+    <div style={{ fontFamily: "Montserrat, sans-serif", userSelect: "none" }}>
       {/* ======================== DASHBOARD NAVIGATION BAR  ============================= */}
       <div className="container max-w-[100%]  h-[70px]  bg-gray-100 fixed z-20">
         <div className="w-[80%] mx-auto h-[70px] flex items-center justify-center  ">

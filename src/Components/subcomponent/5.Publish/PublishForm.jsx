@@ -98,7 +98,7 @@ const PublishForm = ({
               className="max-[354px]:h-[130px]"
               style={{
                 opacity: url || browse || drop ? 0 : 1,
-                height: url || browse || drop ? "0px" : "110px",
+                height: url || browse || drop ? "0px" : "90px",
                 // transform:
                 //   url || browse || drop ? "translateX(500px)" : "translateX(0px)",
                 transition: "height ease 500ms, opacity ease 500ms",
@@ -189,7 +189,7 @@ const PublishForm = ({
                 type="file"
                 accept="image/*"
                 onChange={handleclick}
-                className="absolute z-10 border-[1px] rounded-[10px] border-black px-[10px] py-[4px] w-[230px] outline-none"
+                className="absolute z-10 border-[1px] rounded-[10px] border-black px-[10px] py-[4px] w-[230px] outline-none cursor-pointer"
                 style={{
                   opacity: browse ? 1 : 0,
                   transition: "opacity ease 1s",
@@ -197,14 +197,24 @@ const PublishForm = ({
               />
             </div>
 
+            {/* ================================ PRICE OF BOOK ================================ */}
+
+            <div className="relative z-10 pt-[17px]">
+              <p className="text-[17px] pb-[10px] ">Price</p>
+              <input
+                type="number"
+                name="price"
+                className="w-full outline-black outline-[1px] hover:outline-blue-400 focus:outline-blue-400  rounded-lg px-[10px] py-[5px] transition-all duration-400 ease"
+              />
+            </div>
+
             {/* ================================ CONTENT DIV ================================ */}
             <div className="flex flex-col relative z-10">
-              <p className="text-[17px] py-[14px] ">Content Of Book</p>
+              <p className="text-[17px] py-[14px] ">Main Idea</p>
               <textarea
                 name="description"
                 className="outline-[1px] rounded-lg px-[10px] py-[5px] h-[200px] resize-none transition-all duration-400 ease hover:outline-blue-400 focus:outline-blue-400"
                 contentEditable
-                placeholder="Content Or Description Of Book"
               ></textarea>
             </div>
 

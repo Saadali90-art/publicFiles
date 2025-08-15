@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 // =========================== DATA ADDING OF THE BOOKS OF USER ==============================
 const PublishOne = async (req, res) => {
-  let { title, category, gender, description, image } = req.body;
+  let { title, category, gender, description, price, image } = req.body;
   let token = req.headers.tokenuser;
 
   dotenv.config();
@@ -19,6 +19,7 @@ const PublishOne = async (req, res) => {
     category,
     gender,
     description,
+    price,
     image,
   };
 
@@ -27,6 +28,7 @@ const PublishOne = async (req, res) => {
     category === "" ||
     gender === "" ||
     description === "" ||
+    price === "" ||
     image === ""
   ) {
     return res.status(400).json({ message: "Data Not Present" });

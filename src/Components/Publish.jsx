@@ -16,6 +16,13 @@ const Publish = () => {
   const [browse, setbrowse] = useState(false);
   const [error, seterror] = useState(false);
 
+  // ================== FOR REMOVING THE DEFAULT BEHAVIOUR OF MVING TO OTHER TABS
+
+  useEffect(() => {
+    window.addEventListener("drop", (e) => e.preventDefault());
+    window.addEventListener("dragover", (e) => e.preventDefault());
+  }, []);
+
   // ============================== SENDING DATA TO DB ========================
 
   const sendData = async (data) => {
@@ -58,6 +65,7 @@ const Publish = () => {
       category: formData.category,
       gender: formData.gender,
       image: formData.image,
+      price: formData.price,
       description: formData.description,
     };
 
@@ -102,13 +110,6 @@ const Publish = () => {
       };
     }
   };
-
-  // ================== FOR REMOVING THE DEFAULT BEHAVIOUR OF MVING TO OTHER TABS
-
-  useEffect(() => {
-    window.addEventListener("drop", (e) => e.preventDefault());
-    window.addEventListener("dragover", (e) => e.preventDefault());
-  }, []);
 
   return (
     <div

@@ -5,21 +5,20 @@ import Navigation from "./subcomponent/1.Home/Navigation";
 import WebNovels from "./subcomponent/1.Home/WebNovels";
 import TopPicks from "./subcomponent/1.Home/TopPicks";
 import { images, topPicks, novelinfo } from "./db/data.js";
-import { SignData } from "../Context/SignContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   // ===================== FUNCTIONS CHANGING VARIABLES ==========================
 
-  let { setsigndata } = useContext(SignData);
-
-  const [signin, setsignin] = useState(null);
   const [showpop, setshowpop] = useState(false);
+  const navigate = useNavigate();
 
   const [current, setcurrent] = useState(() => {
     let savedata = localStorage.getItem("current");
     return savedata ? JSON.parse(savedata) : 0;
   });
 
+  const [newArrival, setNewArrival] = useState([]);
   const toppicks = topPicks.slice(current * 9, current * 9 + 9);
 
   // ================== CHANGING THE ITEMS OF TOP PICKS AT REFRESH ===========================
@@ -34,27 +33,22 @@ const HomePage = () => {
     }
   }, []);
 
-  // =========================== GETTING THE DATA FOR SIGN UP ======================
-  const getSignUp = async () => {
-    let token = localStorage.getItem("tokenuserin");
+  // =================================== NEW ARRIVALS ===================================
 
-    if (token) {
-      let reqOpt = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: token,
-        },
-      };
+  const newArrivals = async () => {
+    let reqOpt = {
+      method: "GET",
+      headers: { "Content-Type": "text/json" },
+    };
 
-      let result = await fetch("http://127.0.0.1:8000/", reqOpt);
-      let response = await result.json();
-
-      if (result.ok) {
-        setsignin(response.message);
-      }
-    }
+    let result = await fetch("http://127.0.0.1:8000/newarrivals", reqOpt);
+    let response = await result.json();
+    setNewArrival(response.slice(-6));
   };
+
+  useEffect(() => {
+    newArrivals();
+  }, []);
 
   // =========================== DELETING THE USER ACCOUNT = =============================
 
@@ -83,14 +77,13 @@ const HomePage = () => {
     }
   };
 
-  useEffect(() => {
-    getSignUp();
-  }, []);
+  // ========================== MORE DATA FOR HOME PAGE ==================================
 
-  useEffect(() => {
-    console.log(signin);
-    setsigndata(signin);
-  }, [signin]);
+  const handlemore = (item) => {
+    if (item !== null) {
+      navigate("/user/dashboard/more", { state: item });
+    }
+  };
 
   return (
     <div
@@ -135,16 +128,16 @@ const HomePage = () => {
 
       {/* ================= CAROUSEL =======================  */}
 
-      <div className=" w-[80%] h-[350px] mx-auto mt-[80px] flex">
-        <div className=" w-[50%] pl-[20px]">
+      <div className=" w-[80%] h-[350px] mx-auto mt-[80px]  flex justify-between">
+        <div className=" w-[47%] ">
           <h1 className="text-[24px] py-[10px] pb-[13px] font-[700] text-[#1c1c1c]">
             Popular Novels
           </h1>
-          <div className=" w-[440px] h-[260px] overflow-hidden ">
+          <div className=" w-[460px] h-[260px] overflow-hidden ">
             <Carousel images={images} />
           </div>
         </div>
-        <div className=" w-[50%]">
+        <div className=" w-[53%]">
           <WebNovels data={novelinfo} />
         </div>
       </div>
@@ -155,10 +148,39 @@ const HomePage = () => {
         <TopPicks toppicks={toppicks} />
       </div>
 
-      {/* =====================  DASHBOARD  =============================  */}
-      <div className="container max-w-[100%] bg-yellow-400 h-[300px]">
-        <div className="w-[80%] h-[300px]  mx-auto mt-[20px] py-[20px] pb-[20px]">
-          <h1 className="text-[24px] font-[700] px-[20px]">My Library</h1>
+      {/* =====================  Newest Novels  =============================  */}
+      <div className="container max-w-[100%] mb-[20px] h-[420px] mt-[20px] ">
+        <div className="w-[80%] h-full  mx-auto ">
+          <h1 className="text-[24px] font-[700] py-[20px]">New Arrivals</h1>
+
+          <div className="flex flex-wrap justify-between ">
+            {newArrival.map((item, index) => (
+              <div key={index} className="w-[165px] h-[310px] ">
+                <div
+                  onClick={() => handlemore(item)}
+                  className="w-full h-[230px] overflow-hidden rounded-md cursor-pointer "
+                >
+                  <img
+                    src={item.image}
+                    className="w-full h-[230px] hover:scale-105 transition-all duration-500 ease"
+                  />
+                </div>
+
+                <p
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 2,
+                  }}
+                  className="text-[15px] font-[600] px-[4px] py-[10px] w-full h-[60px]"
+                >
+                  {item.title}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

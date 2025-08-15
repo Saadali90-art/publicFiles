@@ -3,10 +3,6 @@ import React, { useEffect, useState } from "react";
 const Carousel = ({ images }) => {
   const [current, setcurrent] = useState(0);
 
-  const carousel = () => {
-    setcurrent((current + 1) % images.length);
-  };
-
   useEffect(() => {
     let timeout = setTimeout(() => {
       carousel();
@@ -15,12 +11,16 @@ const Carousel = ({ images }) => {
     return () => clearTimeout(timeout);
   }, [current]);
 
+  const carousel = () => {
+    setcurrent((current + 1) % images.length);
+  };
+
   return (
     <div className="relative">
       <div
-        className="flex  relative"
+        className="flex relative"
         style={{
-          transform: `translateX(${-440 * current}px)`,
+          transform: `translateX(${-460 * current}px)`,
           transition: "transform 2s ease",
         }}
       >

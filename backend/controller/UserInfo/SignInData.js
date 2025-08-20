@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import SignModel from "../Model/SignInModel.js";
+import SignModel from "../../Model/SignInModel.js";
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
 

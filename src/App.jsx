@@ -8,6 +8,7 @@ import Dashboard from "./Components/Dashboard";
 import MoreDetails from "./Components/MoreDetails";
 import Cart from "./Components/Cart";
 import PrivateAccess from "./Components/PrivateAccess";
+import Empower from "./Components/Empower";
 
 const App = () => {
   return (
@@ -47,6 +48,8 @@ const App = () => {
         </Route>
 
         <Route path="/user/dashboard/more" element={<MoreDetails />}></Route>
+
+        <Route path="/empowering/:id" element={<Empower />}></Route>
       </Routes>
     </Router>
   );

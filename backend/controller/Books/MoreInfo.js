@@ -1,0 +1,20 @@
+import Publish from "../../Model/PublishModel.js";
+
+const moreInfo = async (req, res) => {
+  let id = req.body;
+
+  try {
+    let result = await Publish.findOne({ _id: id.id });
+    res.status(200).send(result);
+
+    await Publish.updateOne(
+      { _id: result.id },
+      { $set: { views: result.views + 1 } }
+    );
+  } catch (error) {
+    console.log(error.message);
+    res.status(404).send("Issue While Sending More Info");
+  }
+};
+
+export default moreInfo;

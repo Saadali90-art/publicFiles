@@ -1,0 +1,222 @@
+import React, { useEffect, useState } from "react";
+import Navigation from "../1.Home/Navigation";
+import discovering from "../../../assets/discover.png";
+import Cards from "../../Cards";
+import { useNavigate } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa6";
+import "../../../animation.css";
+import JoinUs from "../../../assets/JoinUs.png";
+import Footer from "../1.Home/Footer";
+
+const Discover = () => {
+  const [discover, setDiscover] = useState([]);
+  const navigate = useNavigate();
+
+  const discoveritems = async () => {
+    let reqopt = {
+      method: "GET",
+      headers: { "Content-Type": "text/json" },
+    };
+
+    let result = await fetch("http://127.0.0.1:8000/discover", reqopt);
+    let response = await result.json();
+    setDiscover(response);
+  };
+
+  useEffect(() => {
+    discoveritems();
+  }, []);
+
+  const handlemore = (item) => {
+    if (item !== null) {
+      navigate("/user/dashboard/more", { state: item._id });
+    }
+  };
+
+  const handlejoin = () => {
+    let token = localStorage.getItem("tokenuserin");
+
+    if (token) {
+      navigate("/user/publish");
+    } else {
+      navigate("/signup");
+    }
+  };
+
+  return (
+    <main className="">
+      {/* ====================== NAVIGATION SECTION ============================== */}
+
+      <Navigation />
+
+      <div className="w-full flex flex-col max-[420px]:flex-row max-[420px]:flex-wrap max-[420px]:overflow-x-hidden">
+        <div className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] relative mx-auto mt-[90px]">
+          {/* ========================= BANNER SECTION ================================= */}
+
+          <section className=" mx-auto flex justify-between h-[320px]  max-[590px]:flex-col ">
+            <div className="flex flex-col  justify-center h-full max-[590px]:text-center  w-[60%] pr-[20px] max-[590px]:pb-[10px] max-[590px]:w-[99%] max-[590px]:text-white max-[590px]:pl-[18px]">
+              <p
+                style={{ fontFamily: "Libertinus Serif, serif" }}
+                className="text-[40px]/[45px] font-[700] max-[590px]:text-[30px]/[35px] max-[590px]:font-[600]"
+              >
+                Discover Stories That Ignite Imagination
+              </p>
+              <p className=" text-sm pr-[50px] pt-[20px] max-[590px]:text-justify max-[580px]:text-[13px] max-[590px]:pr-[0px]  ">
+                Dive into adventures where heroes rise, mysteries unfold, and
+                dreams come alive because every story is more than words — it’s
+                a gateway to endless wonder, a spark that fuels the imagination,
+                and a journey that stays with you long after the final page.
+              </p>
+            </div>
+
+            <div className="w-[40%] max-[590px]:w-[100%] h-full  max-[590px]:absolute flex justify-end -z-20 max-[590px]:brightness-60">
+              <img
+                className="w-[380px] max-[777px]:w-[100%] h-full max-[590px]:h-[320px] rounded-md"
+                src={discovering}
+                alt=""
+              />
+            </div>
+          </section>
+        </div>
+
+        {/* =========================== What You Will Discover ============================ */}
+
+        <section className=" min-h-[405px] my-[40px] bg-gray-200">
+          <div className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] mx-auto min-h-[350px] mb-[50px] ">
+            <p
+              style={{ fontFamily: " Archivo, serif" }}
+              className="text-[26px] font-[600] py-[20px]"
+            >
+              What You’ll Discover
+            </p>
+
+            <div className="flex flex-wrap justify-evenly gap-x-[10px] ">
+              {discover.map((item, index) => (
+                <Cards handlemore={handlemore} item={item} key={index} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============================== EXPLORE ============================== */}
+
+        <section className="w-full min-h-[405px] my-[40px] ">
+          <div className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] mx-auto min-h-[350px] mb-[50px] ">
+            <p
+              style={{ fontFamily: " Archivo, serif" }}
+              className="text-[26px] font-[600] py-[20px]"
+            >
+              Timeless Magic of Books
+            </p>
+            <div
+              className="text-justify"
+              style={{ fontFamily: "Archivo, sans-serif" }}
+            >
+              <p>
+                Discovering a new book is like unlocking a hidden doorway — each
+                page a spell, each chapter a realm waiting to be explored. The
+                habit of reading transforms ordinary days into extraordinary
+                journeys, where imagination becomes limitless and words turn
+                into worlds.
+              </p>
+
+              <p className="pt-[7px]">Books hold a kind of quiet magic:</p>
+
+              <ul className="list-disc pl-[19px] py-[7px]">
+                <li>They whisper secrets of ancient kingdoms.</li>
+                <li>They carry the wisdom of ages in their lines.</li>
+                <li>They breathe life into forgotten legends.</li>
+              </ul>
+
+              <p className="py-[7px]">
+                As Cicero once said, “A room without books is like a body
+                without a soul.” And in the words of Emily Dickinson, “There is
+                no frigate like a book to take us lands away.”
+              </p>
+
+              <p>
+                Whether it’s a mystical tale that sparks wonder, or a historical
+                novel that carries echoes of the past, every book offers a
+                chance to step beyond the present moment. To read is not just to
+                pass time — it is to travel through centuries, cultures, and
+                dreams, guided only by the turning of a page.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================== ABOUT US ==================================== */}
+
+        <section className="relative w-[100%] min-h-[250px]">
+          <div className="w-full h-[250px] max-[1026px]:h-[300px] max-[647px]:h-[350px] max-[524px]:h-[400px] max-[447px]:h-[450px] max-[340px]:h-[500px] max-[314px]:h-[550px] absolute -z-10 bg-[url('https://t3.ftcdn.net/jpg/05/39/65/40/240_F_539654005_M7XZRGAG3TAarymgapSSgSUdgkNKQL2G.jpg')] brightness-40 bg-center bg-no-repeat bg-cover"></div>
+          <div className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] mx-auto text-white pt-[5px] text-justify">
+            <p
+              style={{ fontFamily: " Archivo, serif" }}
+              className="w-full mx-auto text-[26px] font-[500] py-[20px]"
+            >
+              About Us
+            </p>
+            <p style={{ fontFamily: "Montserrat, sans-serif" }}>
+              Book Craze, launched to celebrate the joy of reading, is more than
+              a platform — it’s a community where stories come alive, connecting
+              readers and writers across the world. With an emphasis on
+              immersive storytelling, it offers a space where imagination meets
+              endless discovery.
+            </p>
+            <p
+              className="pt-[5px] pb-[24px]"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            >
+              By emphasizing creativity and exploration, we provides more than
+              just literature — it creates an atmosphere where curiosity
+              thrives, imagination soars, and every reader finds their perfect
+              story.
+            </p>
+          </div>
+        </section>
+
+        {/* ============================== JOINING IN THE USER =============================== */}
+
+        <section className="w-full h-[230px] my-[40px]  ">
+          <div className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] mx-auto h-[350px] max-[425px]:h-[200px] mb-[50px] flex justify-between ">
+            <div className="h-[200px] py-[30px] max-[577px]:mx-auto">
+              <p
+                style={{ fontFamily: "Archivo, san-serif" }}
+                className="text-[22px] max-[964px]:text-[18px] font-[700] "
+              >
+                Great authors start with a single page
+              </p>
+              <p
+                style={{ fontFamily: "Patrick Hand, sans-serif" }}
+                className="font-[500] text-[19px] max-[964px]:text-[15px] py-[5px] "
+              >
+                Your words could shape the next unforgettable tale.
+              </p>
+
+              <button
+                onClick={() => handlejoin()}
+                className="text-[16px] font-[600] border-black mt-[10px] cursor-pointer active:brightness-75 active:scale-95 border-[2px] flex absolute items-center bg-white px-[10px] py-[5px] rounded-md gap-x-[5px] hover:text-white hover:bg-black/90  "
+              >
+                Join Us
+                <FaArrowRight size={14} />
+              </button>
+            </div>
+
+            <div className="max-[577px]:hidden">
+              <img
+                src={JoinUs}
+                className="w-[350px] max-[1062px]:w-[290px]  h-[220px] "
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ============================= FOOTER ================================== */}
+
+        <Footer />
+      </div>
+    </main>
+  );
+};
+
+export default Discover;

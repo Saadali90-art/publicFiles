@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import Publish from "../Model/PublishModel.js";
+import Publish from "../../Model/PublishModel.js";
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
 

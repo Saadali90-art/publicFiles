@@ -6,6 +6,7 @@ import WebNovels from "./subcomponent/1.Home/WebNovels";
 import TopPicks from "./subcomponent/1.Home/TopPicks";
 import { images, topPicks, novelinfo } from "./db/data.js";
 import { useNavigate } from "react-router-dom";
+import Cards from "./Cards.jsx";
 
 const HomePage = () => {
   // ===================== FUNCTIONS CHANGING VARIABLES ==========================
@@ -81,7 +82,7 @@ const HomePage = () => {
 
   const handlemore = (item) => {
     if (item !== null) {
-      navigate("/user/dashboard/more", { state: item });
+      navigate("/user/dashboard/more", { state: item._id });
     }
   };
 
@@ -92,12 +93,7 @@ const HomePage = () => {
         userSelect: "none",
       }}
     >
-      {/* =================   NAVIGATION BAR -==========================  */}
-
-      <nav className="w-[100%] bg-white fixed top-0 z-20">
-        <Navigation deletepopup={deletepopup} />
-        <div className="flex-grow h-[2px] bg-[#eaeaea]"></div>
-      </nav>
+      <Navigation deletepopup={deletepopup} />
 
       {/* ================ Delete Pop Up =========================== */}
 
@@ -126,27 +122,15 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* ================= CAROUSEL =======================  */}
+      {/* ================= BANNER SECTION =======================  */}
 
-      <div className=" w-[80%] h-[350px] mx-auto mt-[80px]  flex justify-between">
-        <div className=" w-[47%] ">
-          <h1 className="text-[24px] py-[10px] pb-[13px] font-[700] text-[#1c1c1c]">
-            Popular Novels
-          </h1>
-          <div className=" w-[460px] h-[260px] overflow-hidden ">
-            <Carousel images={images} />
-          </div>
-        </div>
-        <div className=" w-[53%]">
-          <WebNovels data={novelinfo} />
-        </div>
+      <div className=" w-[70%] h-[350px] mx-auto mt-[80px] flex justify-between ">
+        <Carousel images={images} />
+
+        <WebNovels data={novelinfo} />
       </div>
 
-      {/* ==================  WEEKLY TOP PICKS ========================  */}
-
-      <div className="container max-w-screen pb-[30px] bg-[#e9e9e9]">
-        <TopPicks toppicks={toppicks} />
-      </div>
+      <TopPicks toppicks={toppicks} />
 
       {/* =====================  Newest Novels  =============================  */}
       <div className="container max-w-[100%] mb-[20px] h-[420px] mt-[20px] ">
@@ -155,30 +139,7 @@ const HomePage = () => {
 
           <div className="flex flex-wrap justify-between ">
             {newArrival.map((item, index) => (
-              <div key={index} className="w-[165px] h-[310px] ">
-                <div
-                  onClick={() => handlemore(item)}
-                  className="w-full h-[230px] overflow-hidden rounded-md cursor-pointer "
-                >
-                  <img
-                    src={item.image}
-                    className="w-full h-[230px] hover:scale-105 transition-all duration-500 ease"
-                  />
-                </div>
-
-                <p
-                  style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 2,
-                  }}
-                  className="text-[15px] font-[600] px-[4px] py-[10px] w-full h-[60px]"
-                >
-                  {item.title}
-                </p>
-              </div>
+              <Cards handlemore={handlemore} item={item} index={index} />
             ))}
           </div>
         </div>

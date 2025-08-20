@@ -3,6 +3,8 @@ import "../../../animation.css";
 import bgimg from "../../../assets/bgimg.jpg";
 import { Link } from "react-router-dom";
 import SignUpForm from "./SignUpForm";
+import facebook from "../../../assets/facebook.png";
+import instagram from "../../../assets/instagram.png";
 
 const SignUpContainer = ({
   handlesubmit,
@@ -95,7 +97,7 @@ const SignUpContainer = ({
 
             <img
               className="w-[35px] h-[35px] p-[1px] rounded-[50%]"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtfbcYeYgf0wQJ-LSPm3CPbyB7T1p0f5bnaA&s"
+              src={facebook}
               alt="Facebook Icon"
             />
 
@@ -107,7 +109,7 @@ const SignUpContainer = ({
 
             <img
               className="w-[35px] h-[35px] p-[1px] rounded-[50%]"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJigDhy3_qSjypIM002iimN6uu3bMsj31rzw&s"
+              src={instagram}
               alt="Instagram Icon"
             />
           </div>

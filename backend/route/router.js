@@ -1,15 +1,17 @@
 import express from "express";
-import sendData from "../controller/SignUp.js";
-import getSignIn from "../controller/UserDataSignIn.js";
-import deleteUser from "../controller/DeleteUser.js";
-import Login from "../controller/Login.js";
-import getPublish from "../controller/Dashboard.js";
-import PublishOne from "../controller/Publish.js";
-import ProtectedPages from "../controller/Protect.js";
+import sendData from "../controller/UserInfo/SignUp.js";
+import getSignIn from "../controller/UserInfo/SignInData.js";
+import deleteUser from "../controller/UserInfo/DeleteUser.js";
+import Login from "../controller/UserInfo/Login.js";
+import getPublish from "../controller/Books/Dashboard.js";
+import PublishOne from "../controller/Books/Publish.js";
+import ProtectedPages from "../controller/UserInfo/Protect.js";
 import alsolike from "../controller/AlsoLike.js";
-import comment from "../controller/Comments.js";
+import comment from "../controller/Comments/Comments.js";
 import newArrivals from "../controller/NewArrivals.js";
-import getComments from "../controller/getComments.js";
+import getComments from "../controller/Comments/getComments.js";
+import moreInfo from "../controller/Books/MoreInfo.js";
+import discoveritems from "../controller/Books/DiscoverItems.js";
 
 let router = express.Router();
 
@@ -34,5 +36,9 @@ router.post("/comment", comment);
 router.get("/newarrivals", newArrivals);
 
 router.post("/allcomments", getComments);
+
+router.post("/getmoreinfo", moreInfo);
+
+router.get("/discover", discoveritems);
 
 export default router;

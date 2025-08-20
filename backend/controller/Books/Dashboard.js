@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
-import Publish from "../Model/PublishModel.js";
+import Publish from "../../Model/PublishModel.js";
 
 // ========================== GETTING DATA PUBLISHED BY USER =============================
 

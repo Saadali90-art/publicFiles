@@ -7,24 +7,43 @@ import { TbCategoryPlus } from "react-icons/tb";
 import { CgGenderFemale } from "react-icons/cg";
 import { CgGenderMale } from "react-icons/cg";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { TfiControlShuffle } from "react-icons/tfi";
+import { FaEye } from "react-icons/fa";
+import Cards from "./Cards";
 
 const MoreDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   let data = location.state;
-  let rating = Math.random() * (5 - 1) + 1;
-  if (rating > 4.8) rating = 5;
-  let stararr = Array.from({ length: 5 });
 
+  const [moreInfo, setMoreInfo] = useState(null);
   const [youLike, setYouLike] = useState([]);
   const [comments, setComments] = useState([]);
   const [commentDiv, setCommentDiv] = useState(false);
   const [commentValue, setCommentValue] = useState("");
 
-  //  ======================== GETTING THE LIKED DATA  =============================
+  // ========================== FINDING DATA IN DATA BASE ============================
+
+  const getMoreInfo = async () => {
+    let reqopt = {
+      method: "POST",
+      body: JSON.stringify({ id: data }),
+      headers: { "Content-Type": "application/json" },
+    };
+
+    let result = await fetch("http://127.0.0.1:8000/getmoreinfo", reqopt);
+    let response = await result.json();
+    setMoreInfo(response);
+  };
+
+  useEffect(() => {
+    getMoreInfo();
+  }, []);
+
+  //======================== GETTING THE LIKED DATA  =============================
 
   const getLikeData = async () => {
-    let categoryinfo = data.category;
+    let categoryinfo = moreInfo?.category;
 
     let reqOpt = {
       method: "POST",
@@ -36,15 +55,14 @@ const MoreDetails = () => {
     let response = await result.json();
 
     let rmPresent = response.message;
-    console.log(rmPresent);
-    rmPresent = rmPresent.filter((item) => item.title !== data.title);
+    rmPresent = rmPresent.filter((item) => item.title !== moreInfo.title);
     rmPresent = rmPresent.slice(0, 6);
     setYouLike(rmPresent);
   };
 
   useEffect(() => {
     getLikeData();
-  }, []);
+  }, [moreInfo]);
 
   // ============================= CHECKING THE USER IS AUTHORIZED =========================
 
@@ -63,7 +81,7 @@ const MoreDetails = () => {
   const getComments = async () => {
     let reqOpt = {
       method: "POST",
-      body: JSON.stringify({ title: data.title }),
+      body: JSON.stringify({ title: moreInfo?.title }),
       headers: { "Content-Type": "application/json" },
     };
 
@@ -76,7 +94,7 @@ const MoreDetails = () => {
 
   const handlepost = async () => {
     let token = localStorage.getItem("tokenuserin");
-    let dataToSend = { title: data.title, token, commentValue };
+    let dataToSend = { title: moreInfo?.title, token, commentValue };
 
     let reqOpt = {
       method: "POST",
@@ -102,9 +120,9 @@ const MoreDetails = () => {
     getComments();
   }, []);
 
-  useEffect(() => {
-    console.log(comments);
-  }, [comments]);
+  const handlemore = (item) => {
+    console.log(item);
+  };
 
   return (
     <div className="select-none">
@@ -116,114 +134,106 @@ const MoreDetails = () => {
       </nav>
 
       {/* ======================= NOVEL INFORAMTION ============================ */}
-      <div
-        className="w-[80%] h-[380px]  relative  mx-auto mt-[100px] flex "
-        style={{ fontFamily: "Roboto, sans-serif" }}
-      >
-        {/* ==================== IMAGE ================== */}
 
-        <div className="w-[25%] ">
-          <div className="w-[300px] h-[380px] relative ">
-            <p
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-              className="uppercase absolute text-white font-[500] rounded-tr-lg  top-0 right-0 px-[10px] py-[6px] rounded-bl-2xl bg-blue-500"
-            >
-              Original
-            </p>
-            <img
-              src={data.image}
-              alt="Book Cover Image"
-              className="w-full h-full rounded-lg"
-            />
-          </div>
-        </div>
+      {moreInfo !== null ? (
+        <div
+          className="w-[80%] h-[380px]  relative  mx-auto mt-[100px] flex "
+          style={{ fontFamily: "Roboto, sans-serif" }}
+        >
+          {/* ==================== IMAGE ================== */}
 
-        {/* =================== MORE DETAILS ============================ */}
-        <div className="w-[74%] ">
-          <div className="ml-[40px]">
-            <p
-              style={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 2,
-                fontFamily: "Archivo, serif",
-              }}
-              className="w-full max-h-[84px] text-[28px] font-[700] text-black capitalize mt-[5px] "
-            >
-              {data.title}
-            </p>
-
-            <div className="w-[30%] flex justify-between my-[10px] ">
-              <p className="capitalize flex items-center gap-x-[2px] font-[500] truncate overflow-hidden">
-                <TbCategoryPlus size={"20px"} />
-                {data.category}
-              </p>
-
-              <p className="capitalize flex items-center font-[500] truncate">
-                {data.gender ? (
-                  <CgGenderMale size={"20px"} />
-                ) : (
-                  <CgGenderFemale size={"20px"} />
-                )}
-                {data.gender} Orientation
-              </p>
-            </div>
-
-            <p
-              style={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 6,
-              }}
-              className="text-black/80 text-[15px] my-[5px]  w-full max-h-[140px] text-justify"
-            >
-              {data.description.slice(0, 1).toUpperCase() +
-                data.description.slice(1)}
-            </p>
-
-            {/* ========================= RATINGS ============================ */}
-
-            <div className="flex mt-[10px] items-center">
-              {stararr.map((_, i) => (
-                <div key={i}>
-                  {Math.floor(rating) > i ? (
-                    <FaStar fill="yellow" size={"24px"} />
-                  ) : (
-                    <CiStar size={"24px"} />
-                  )}
-                </div>
-              ))}
+          <div className="w-[25%] ">
+            <div className="w-[300px] h-[380px] relative ">
               <p
-                style={{ fontFamily: "Libertinus Serif, serif" }}
-                className="text-[24px] font-[600] pl-[15px]"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+                className="uppercase absolute text-white font-[500] rounded-tr-lg  top-0 right-0 px-[10px] py-[6px] rounded-bl-2xl bg-blue-500"
               >
-                {rating.toFixed(1)}
+                Original
               </p>
+              <img
+                src={moreInfo.image}
+                alt="Book Cover Image"
+                className="w-full h-full rounded-lg"
+              />
             </div>
+          </div>
 
-            {/* ==================== DOWNLOAD BUTTONS ========================= */}
+          {/* =================== MORE DETAILS ============================ */}
+          <div className="w-[74%] ">
+            <div className="ml-[40px]">
+              <p
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 2,
+                  fontFamily: "Archivo, serif",
+                }}
+                className="w-full max-h-[84px] text-[28px] font-[700] text-black capitalize mt-[5px] "
+              >
+                {moreInfo.title}
+              </p>
 
-            <div
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-              className="absolute bottom-1 flex flex-row gap-x-[10px]"
-            >
-              <button className="bg-red-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
-                Read
-              </button>
-              <button className="bg-blue-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
-                Add To Cart
-              </button>
-              <button className="bg-purple-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
-                Download Now
-              </button>
+              <div className="w-[40%] flex justify-between my-[10px] ">
+                <p className="capitalize flex items-center gap-x-[2px] font-[500] truncate overflow-hidden">
+                  <TbCategoryPlus size={"20px"} />
+                  {moreInfo.category}
+                </p>
+
+                <p className="capitalize flex items-center font-[500] truncate">
+                  {moreInfo.gender ? (
+                    <CgGenderMale size={"20px"} />
+                  ) : (
+                    <CgGenderFemale size={"20px"} />
+                  )}
+                  {moreInfo.gender} Orientation
+                </p>
+
+                <p className=" flex items-center gap-x-[5px] font-[500]">
+                  <FaEye />
+                  {moreInfo.views}
+                </p>
+              </div>
+
+              <p
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 6,
+                }}
+                className="text-black/80 text-[15px] my-[5px]  w-full max-h-[140px] text-justify"
+              >
+                {moreInfo.description?.slice(0, 1).toUpperCase() +
+                  moreInfo.description?.slice(1)}
+              </p>
+
+              {/* ==================== DOWNLOAD BUTTONS ========================= */}
+
+              <div
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+                className="absolute bottom-1 flex flex-row gap-x-[10px]"
+              >
+                <button className="bg-red-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
+                  Read
+                </button>
+                <button className="bg-blue-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
+                  Add To Cart
+                </button>
+                <button className="bg-purple-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
+                  Download Now
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="w-screen h-screen flex items-center justify-center">
+          Loading..
+        </div>
+      )}
 
       {/* ============================== YOU MAY ALSO LIKE ============================= */}
 
@@ -233,27 +243,7 @@ const MoreDetails = () => {
 
           <div className="flex flex-wrap justify-between ">
             {youLike.map((item, index) => (
-              <div key={index} className="w-[165px] h-[310px] ">
-                <div className="w-full h-[230px] overflow-hidden rounded-md">
-                  <img
-                    src={item.image}
-                    className="w-full h-[230px] hover:scale-105 transition-all duration-500 ease"
-                  />
-                </div>
-
-                <p
-                  style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 2,
-                  }}
-                  className="text-[15px] font-[600] px-[4px] py-[10px] w-full h-[60px]"
-                >
-                  {item.title}
-                </p>
-              </div>
+              <Cards handlemore={handlemore} item={item} key={index} />
             ))}
           </div>
         </div>
@@ -353,3 +343,27 @@ const MoreDetails = () => {
 };
 
 export default MoreDetails;
+
+// let rating = Math.random() * (5 - 1) + 1;
+// if (rating > 4.8) rating = 5;
+// let stararr = Array.from({ length: 5 });
+
+// {/* ========================= RATINGS ============================ */}
+
+//       <div className="flex mt-[10px] items-center">
+//         {stararr.map((_, i) => (
+//           <div key={i}>
+//             {Math.floor(rating) > i ? (
+//               <FaStar fill="yellow" size={"24px"} />
+//             ) : (
+//               <CiStar size={"24px"} />
+//             )}
+//           </div>
+//         ))}
+//         <p
+//           style={{ fontFamily: "Libertinus Serif, serif" }}
+//           className="text-[24px] font-[600] pl-[15px]"
+//         >
+//           {rating.toFixed(1)}
+//         </p>
+//       </div>

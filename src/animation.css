@@ -24,3 +24,13 @@
     transform: translateX(0px);
   }
 }
+
+@keyframes carousel {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0; /* stay hidden until cycle restarts */
+  }
+}

@@ -1,44 +1,5 @@
 // ======================= DATA CONTAINING VARIABLES =============================
 
-const images = [
-  {
-    img: "/carousel/first.jpeg",
-    heading: "Global Era of Star",
-    description:
-      "In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity",
-  },
-  {
-    img: "/carousel/second.jpeg",
-    heading: "Lord of Mysterious",
-    description:
-      "In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity",
-  },
-  {
-    img: "/carousel/third.jpeg",
-    heading: "Son of Hades",
-    description:
-      "In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity",
-  },
-  {
-    img: "/carousel/four.jpeg",
-    heading: "Strongest Hammer",
-    description:
-      "In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity",
-  },
-  {
-    img: "/carousel/five.jpg",
-    heading: "Naruto",
-    description:
-      "In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity",
-  },
-  {
-    img: "/carousel/six.jpg",
-    heading: "One Piece",
-    description:
-      "In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity In a futuristic world blessed by cosmic power, new heroes rise to protect humanity.In a futuristic world blessed by cosmic power, new heroes rise to protect humanityIn a futuristic world blessed by cosmic power, new heroes rise to protect humanity",
-  },
-];
-
 const novelinfo = [
   {
     heading: "Discover New Worlds",
@@ -279,4 +240,4 @@ const topPicks = [
   },
 ];
 
-export { images, novelinfo, topPicks };
+export { novelinfo, topPicks };

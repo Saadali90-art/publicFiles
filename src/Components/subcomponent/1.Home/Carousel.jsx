@@ -1,19 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-const Carousel = ({ images }) => {
+const Carousel = () => {
+  const [weeklyTop, setWeeklyTop] = useState([]);
   const [current, setcurrent] = useState(0);
+  const reference = useRef(null);
+  const [slideWidth, setSlideWidth] = useState(0);
+  let arrButton = Array.from({ length: weeklyTop.length });
+
+  // ========================== GETTING THE WEEKLY TOP DATA ===================================
+
+  const getData = async () => {
+    let reqopt = {
+      method: "GET",
+      headers: { "Content-Type": "text/json" },
+    };
+
+    let result = await fetch("http://127.0.0.1:8000/weeklytop", reqopt);
+    let response = await result.json();
+    setWeeklyTop(response);
+  };
 
   useEffect(() => {
-    let timeout = setTimeout(() => {
-      carousel();
-    }, 5000);
+    getData();
+  }, []);
 
-    return () => clearTimeout(timeout);
-  }, [current]);
+  // ======================== GETTING THE WIDTH OF THE DIV ===============================
 
-  const carousel = () => {
-    setcurrent((current + 1) % images.length);
-  };
+  useEffect(() => {
+    const updateWidth = () => {
+      if (reference.current) {
+        setSlideWidth(reference.current.offsetWidth);
+      }
+    };
+
+    updateWidth();
+
+    window.addEventListener("resize", updateWidth);
+
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  // ======================= CHANGING THE CURRENT AFTER TIME ============================
+
+  useEffect(() => {
+    let time = setTimeout(() => {
+      if (current === weeklyTop.length - 1) {
+        setcurrent(0);
+      } else {
+        setcurrent(current + 1);
+      }
+    }, 10000);
+    return () => clearTimeout(time);
+  });
 
   return (
     <div className=" w-[47%] ">
@@ -23,75 +61,98 @@ const Carousel = ({ images }) => {
       >
         Weekly Novels
       </h1>
-      <div className=" w-[420px] h-[260px] overflow-hidden ">
-        <div className="relative">
-          <div
-            className="flex relative"
-            style={{
-              transform: `translateX(${-420 * current}px)`,
-              transition: "transform 2s ease",
-            }}
-          >
-            {images.map((item, index) => (
-              // ============ BACKGROUND
 
-              <div key={index} className="min-w-full rounded-md ">
+      {/* ======================= CAROUSEL ============================= */}
+
+      <div className="relative ">
+        <div
+          ref={reference}
+          className="w-[420px] h-[260px] flex overflow-hidden rounded-lg  relative"
+          style={{ background: weeklyTop.length === 0 ? "white" : "black" }}
+        >
+          {weeklyTop.map((item, index) => (
+            <div
+              key={index}
+              style={{
+                transform: `translateX(-${current * slideWidth}px)`,
+                opacity: current === index ? 1 : 0,
+
+                transition: "transform 5ms linear ,opacity 400ms linear",
+              }}
+              className="min-w-full "
+            >
+              <img
+                src={item.image}
+                className="min-w-full h-full absolute -z-10 blur-lg backdrop-brightness-20"
+                alt=""
+              />
+
+              {/* ======================== INNER INFO =============================== */}
+
+              <div className="h-[240px] overflow-hidden flex px-[15px] py-[15px]">
                 <img
-                  src={item.img}
-                  alt={`image ${index + 1}`}
-                  className="w-[100%] h-[260px] rounded-md blur-lg brightness-80"
+                  src={item.image}
+                  alt=""
+                  className="w-[150px] h-[220px] rounded-lg"
                 />
 
-                {/* =========== INNER TEXT */}
-
-                <div className="w-full h-full absolute top-0  flex">
-                  <div className="w-[40%] flex items-center justify-center">
-                    <img
-                      src={item.img}
-                      alt=""
-                      className="w-[80%] h-[80%] rounded-lg"
-                    />
-                  </div>
-                  <div
-                    style={{ fontFamily: "Inter, sanserif" }}
-                    className="w-[60%] h-[80%] mt-[20px] flex flex-col items-start justify-center text-ellipsis overflow-hidden "
+                <div className="pl-[10px]">
+                  <p
+                    style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 1,
+                      fontFamily: "Archivo, serif",
+                    }}
+                    className="text-white text-[18px] font-[500] pt-[10px] pb-[5px]"
                   >
-                    <p className="text-white text-[23px] font-[500] my-[10px]">
-                      {item.heading}
+                    {item.title}
+                  </p>
+
+                  <div className="flex items-center gap-x-[30px] py-[3px]">
+                    <p className="text-white text-[14px] py-[2px]">
+                      Price : ${item.price}
                     </p>
-                    <p
-                      style={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        WebkitBoxOrient: "vertical",
-                        WebkitLineClamp: 6,
-                      }}
-                      className="text-[15px] w-[90%] text-justify overflow-hidden text-white "
-                    >
-                      {item.description}
+                    <p className="text-white text-[14px] py-[2px]">
+                      {item.category}
                     </p>
                   </div>
+
+                  <p
+                    style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 7,
+                      fontFamily: "Archivo, serif",
+                    }}
+                    className="text-white text-[13px] py-[2px] pb-[3px] font-[400] text-justify"
+                  >
+                    {item.description}
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          {/* ==================== BUTTONS SECTIONS ================================  */}
+        {/* ====================== BUTTONS SECTION =========================== */}
 
-          <div className="absolute text-white bottom-[3%] left-[35%]">
-            {images.map((_, index) => (
+        <div className="flex gap-x-[8px] absolute top-[90%] left-[35%]">
+          {arrButton.map((_, index) => (
+            <div className="" key={index}>
               <button
-                key={index}
-                className="w-[10px] h-[10px] bg-black rounded-[50%] mx-[5px]"
                 style={{
-                  backgroundColor: index === current ? "blue" : "#6b6b6b",
-                  transition: "backgroundcolor 1s ease-in-out",
+                  backgroundColor: current === index ? "white" : "#5b5b5b",
                 }}
                 onClick={() => setcurrent(index)}
+                className="w-[10px] h-[10px] cursor-pointer bg-gray-500 rounded-[50%]"
               ></button>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

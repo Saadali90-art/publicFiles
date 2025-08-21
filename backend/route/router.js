@@ -12,6 +12,7 @@ import newArrivals from "../controller/NewArrivals.js";
 import getComments from "../controller/Comments/getComments.js";
 import moreInfo from "../controller/Books/MoreInfo.js";
 import discoveritems from "../controller/Books/DiscoverItems.js";
+import weeklyTop from "../controller/Books/Weeklytop.js";
 
 let router = express.Router();
 
@@ -40,5 +41,7 @@ router.post("/allcomments", getComments);
 router.post("/getmoreinfo", moreInfo);
 
 router.get("/discover", discoveritems);
+
+router.get("/weeklytop", weeklyTop);
 
 export default router;

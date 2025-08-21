@@ -4,7 +4,7 @@ import Carousel from "./subcomponent/1.Home/Carousel";
 import Navigation from "./subcomponent/1.Home/Navigation";
 import WebNovels from "./subcomponent/1.Home/WebNovels";
 import TopPicks from "./subcomponent/1.Home/TopPicks";
-import { images, topPicks, novelinfo } from "./db/data.js";
+import { topPicks, novelinfo } from "./db/data.js";
 import { useNavigate } from "react-router-dom";
 import Cards from "./Cards.jsx";
 
@@ -125,7 +125,7 @@ const HomePage = () => {
       {/* ================= BANNER SECTION =======================  */}
 
       <div className=" w-[70%] h-[350px] mx-auto mt-[80px] flex justify-between ">
-        <Carousel images={images} />
+        <Carousel />
 
         <WebNovels data={novelinfo} />
       </div>
@@ -139,7 +139,12 @@ const HomePage = () => {
 
           <div className="flex flex-wrap justify-between ">
             {newArrival.map((item, index) => (
-              <Cards handlemore={handlemore} item={item} index={index} />
+              <Cards
+                handlemore={handlemore}
+                item={item}
+                index={index}
+                key={index}
+              />
             ))}
           </div>
         </div>

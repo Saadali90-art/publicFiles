@@ -44,7 +44,7 @@ const Discover = () => {
   };
 
   return (
-    <main className="">
+    <main className="min-h-[800px] ">
       {/* ====================== NAVIGATION SECTION ============================== */}
 
       <Navigation />

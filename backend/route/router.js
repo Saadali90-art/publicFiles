@@ -1,6 +1,5 @@
 import express from "express";
 import sendData from "../controller/UserInfo/SignUp.js";
-import getSignIn from "../controller/UserInfo/SignInData.js";
 import deleteUser from "../controller/UserInfo/DeleteUser.js";
 import Login from "../controller/UserInfo/Login.js";
 import getPublish from "../controller/Books/Dashboard.js";
@@ -13,14 +12,18 @@ import getComments from "../controller/Comments/getComments.js";
 import moreInfo from "../controller/Books/MoreInfo.js";
 import discoveritems from "../controller/Books/DiscoverItems.js";
 import weeklyTop from "../controller/Books/Weeklytop.js";
+import MontlyPicks from "../controller/Books/MontlyPicks.js";
+import SignInData from "../controller/UserInfo/SignInData.js";
+import Titles from "../controller/Books/Titles.js";
+import Search from "../controller/Books/Search.js";
 
 let router = express.Router();
 
-router.post("/", sendData);
+router.post("/signup", sendData);
 
-router.get("/", getSignIn);
+router.get("/signindata", SignInData);
 
-router.delete("/", deleteUser);
+router.delete("/deleteUser", deleteUser);
 
 router.post("/login", Login);
 
@@ -43,5 +46,11 @@ router.post("/getmoreinfo", moreInfo);
 router.get("/discover", discoveritems);
 
 router.get("/weeklytop", weeklyTop);
+
+router.get("/monthlypicks", MontlyPicks);
+
+router.get("/titles", Titles);
+
+router.get("/searches", Search);
 
 export default router;

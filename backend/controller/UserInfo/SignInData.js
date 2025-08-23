@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 // ======================== GETTING THE USER DATA FOR THE HOME PAGE SIGN UP =======================
 
-const getSignIn = async (req, res) => {
+const SignInData = async (req, res) => {
   let tokenfront = req.headers.authorization;
 
   dotenv.config();
@@ -19,6 +19,10 @@ const getSignIn = async (req, res) => {
       userId: tokendata.userId,
     });
 
+    if (!result) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+
     res.status(200).json({ message: result });
   } catch (error) {
     console.log("Can not Find User Sign In", error.message);
@@ -26,4 +30,4 @@ const getSignIn = async (req, res) => {
   }
 };
 
-export default getSignIn;
+export default SignInData;

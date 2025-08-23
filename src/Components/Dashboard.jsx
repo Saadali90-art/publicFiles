@@ -4,6 +4,7 @@ import empty from "../assets/EmptyFolder.png";
 import { IoIosArrowBack } from "react-icons/io";
 import DashboardCards from "./subcomponent/4.Dashboard/DashboardCards";
 import NoData from "./subcomponent/4.Dashboard/NoData";
+import specificBooks from "./Requests/DashBoard/SpecificDashBoard.js";
 
 const Dashboard = () => {
   // ======================== HOOKS OR DATA VARIABLE ================================
@@ -13,27 +14,17 @@ const Dashboard = () => {
   const navigate = useNavigate();
   let loadingdots = Array.from({ length: 4 });
   let [currentdot, setcurrentdot] = useState(0);
-  const [moredata, setmoredata] = useState({});
 
   // ====================== GETTING DATA FROM DB =============================
 
-  const getData = async () => {
-    let token = localStorage.getItem("tokenuserin");
-
-    let reqOpt = {
-      method: "GET",
-      headers: { "Content-Type": "text/json", tokenuser: token },
+  useEffect(() => {
+    const fetchData = async (link) => {
+      let data = await specificBooks(link);
+      setuserData(data);
     };
 
-    let result = await fetch("http://127.0.0.1:8000/user/dashboard", reqOpt);
-    let response = await result.json();
-
-    if (result.status === 200) {
-      setuserData(response);
-    } else {
-      console.log(response);
-    }
-  };
+    fetchData("user/dashboard");
+  }, []);
 
   // ===================== FOR LOADING OR CREATE ONE ================================
 
@@ -59,23 +50,12 @@ const Dashboard = () => {
     }, 100);
   }, [currentdot]);
 
-  // ================ HANDLING THE ORE INFO PAGE AND GIVING THEM DATA =======================
-
-  const handlemore = (index) => {
-    setmoredata(userData[index]);
-  };
-
-  // ======================== CALLING THE DATA FUNCTION ===============================
-
-  useEffect(() => {
-    getData();
-  }, []);
-
   return (
     <div style={{ fontFamily: "Montserrat, sans-serif", userSelect: "none" }}>
       {/* ======================== DASHBOARD NAVIGATION BAR  ============================= */}
+
       <div className="container max-w-[100%]  h-[70px]  bg-gray-100 fixed z-20">
-        <div className="w-[80%] mx-auto h-[70px] flex items-center justify-center  ">
+        <div className="w-[70%] mx-auto h-[70px] flex items-center justify-center  ">
           <button
             className="absolute my-auto left-[15px] p-2 rounded-[50%] bg-transparent cursor-pointer max-[395px]:left-[1px]"
             onClick={() => navigate(-1)}
@@ -94,27 +74,7 @@ const Dashboard = () => {
       <div>
         {/* ===================== IF DATA IS PRESENT IN DB  ================================ */}
 
-        {userData.length !== 0 ? (
-          <div className="w-[80%]  mx-auto pt-[100px] pb-[20px]">
-            {/* ========================== YOUR DATA HUB =========================== */}
-
-            <div className="flex justify-between items-center">
-              <p className="text-[20px] font-[600] text-[#1c1c1c] py-[10px] ">
-                Your Data Hub
-              </p>
-              <button
-                className="px-[15px] py-[8px] rounded-lg font-[500] text-[16px] transition-all duration-300 ease bg-black text-white hover:bg-transparent hover:text-black hover:border-[1px] box-content cursor-pointer"
-                onClick={() => navigate("/user/publish")}
-              >
-                Publish
-              </button>
-            </div>
-
-            {/* =========================== PUBLISHED BOOK CARDS ============================= */}
-
-            <DashboardCards userData={userData} />
-          </div>
-        ) : (
+        {userData === "Data Not Present" ? (
           <div className="pt-[80px] ">
             {/* =============================== IF DATA NOT PRESENT  ================================= */}
 
@@ -124,6 +84,26 @@ const Dashboard = () => {
               currentdot={currentdot}
               empty={empty}
             />
+          </div>
+        ) : (
+          <div className="w-[70%]  mx-auto pt-[100px] pb-[20px]">
+            {/* ========================== YOUR DATA HUB =========================== */}
+
+            <div className="flex justify-between items-center ">
+              <p className="text-[20px] font-[600] text-[#1c1c1c] py-[10px] max-[368px]:text-[17px] ">
+                Your Data Hub
+              </p>
+              <button
+                className="px-[15px] max-[368px]:px-[12px] py-[8px] max-[368px]:py-[6px]  rounded-lg font-[500] text-[16px] max-[368px]:text-[15px] transition-all duration-300 ease bg-black text-white hover:bg-transparent hover:text-black hover:border-[1px] box-content cursor-pointer"
+                onClick={() => navigate("/user/publish")}
+              >
+                Publish
+              </button>
+            </div>
+
+            {/* =========================== PUBLISHED BOOK CARDS ============================= */}
+
+            <DashboardCards userData={userData} />
           </div>
         )}
       </div>

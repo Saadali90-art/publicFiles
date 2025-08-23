@@ -1,12 +1,14 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../animation.css";
 import Carousel from "./subcomponent/1.Home/Carousel";
 import Navigation from "./subcomponent/1.Home/Navigation";
 import WebNovels from "./subcomponent/1.Home/WebNovels";
 import TopPicks from "./subcomponent/1.Home/TopPicks";
-import { topPicks, novelinfo } from "./db/data.js";
+import novelinfo from "./db/data.js";
 import { useNavigate } from "react-router-dom";
-import Cards from "./Cards.jsx";
+import newBooks from "./Requests/Home Requests/NewBooks.js";
+import deleteUser from "./Requests/Home Requests/DeleteUser.js";
+import NewArrivals from "./subcomponent/1.Home/NewArrivals.jsx";
 
 const HomePage = () => {
   // ===================== FUNCTIONS CHANGING VARIABLES ==========================
@@ -20,7 +22,6 @@ const HomePage = () => {
   });
 
   const [newArrival, setNewArrival] = useState([]);
-  const toppicks = topPicks.slice(current * 9, current * 9 + 9);
 
   // ================== CHANGING THE ITEMS OF TOP PICKS AT REFRESH ===========================
 
@@ -36,46 +37,19 @@ const HomePage = () => {
 
   // =================================== NEW ARRIVALS ===================================
 
-  const newArrivals = async () => {
-    let reqOpt = {
-      method: "GET",
-      headers: { "Content-Type": "text/json" },
+  useEffect(() => {
+    const fetchData = async (link) => {
+      let data = await newBooks(link);
+      setNewArrival(data);
     };
 
-    let result = await fetch("http://127.0.0.1:8000/newarrivals", reqOpt);
-    let response = await result.json();
-    setNewArrival(response.slice(-6));
-  };
-
-  useEffect(() => {
-    newArrivals();
+    fetchData("newarrivals");
   }, []);
 
-  // =========================== DELETING THE USER ACCOUNT = =============================
+  // =========================== DELETING POPUP=============================
 
   const deletepopup = () => {
     setshowpop(true);
-  };
-
-  const deleteuser = async () => {
-    let data = localStorage.getItem("tokenuserin");
-
-    let reqOpt = {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json", token: data },
-    };
-
-    let result = await fetch("http://127.0.0.1:8000", reqOpt);
-
-    console.log(result);
-
-    if (result.ok) {
-      let response = await result.json();
-      console.log(response);
-      localStorage.removeItem("tokenuserin");
-      location.reload();
-      setshowpop(false);
-    }
   };
 
   // ========================== MORE DATA FOR HOME PAGE ==================================
@@ -106,7 +80,7 @@ const HomePage = () => {
 
             <div className="absolute bottom-[10px] right-[10px] ">
               <button
-                onClick={deleteuser}
+                onClick={() => deleteUser(setshowpop, "deleteUser")}
                 className=" bg-red-500 text-white border-transparent hover:bg-white hover:text-red-500 border-[2px]  hover:border-red-500 text-sm px-[12px] py-[5px] rounded-md mr-[5px] font-[600] cursor-pointer "
               >
                 Yes
@@ -124,31 +98,17 @@ const HomePage = () => {
 
       {/* ================= BANNER SECTION =======================  */}
 
-      <div className=" w-[70%] h-[350px] mx-auto mt-[80px] flex justify-between ">
+      <div className=" w-[70%] h-[360px] mx-auto mt-[80px] flex justify-between ">
         <Carousel />
 
         <WebNovels data={novelinfo} />
       </div>
 
-      <TopPicks toppicks={toppicks} />
+      <TopPicks handlemore={handlemore} />
 
-      {/* =====================  Newest Novels  =============================  */}
-      <div className="container max-w-[100%] mb-[20px] h-[420px] mt-[20px] ">
-        <div className="w-[80%] h-full  mx-auto ">
-          <h1 className="text-[24px] font-[700] py-[20px]">New Arrivals</h1>
+      <NewArrivals handlemore={handlemore} newArrival={newArrival} />
 
-          <div className="flex flex-wrap justify-between ">
-            {newArrival.map((item, index) => (
-              <Cards
-                handlemore={handlemore}
-                item={item}
-                index={index}
-                key={index}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* ========================= TOP FANFIC TAGS ============================ */}
     </div>
   );
 };

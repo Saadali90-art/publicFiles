@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import TopBooks from "../../Requests/Home Requests/TopBooks.js";
+import { useNavigate } from "react-router-dom";
 
 const Carousel = () => {
   const [weeklyTop, setWeeklyTop] = useState([]);
@@ -6,22 +8,17 @@ const Carousel = () => {
   const reference = useRef(null);
   const [slideWidth, setSlideWidth] = useState(0);
   let arrButton = Array.from({ length: weeklyTop.length });
+  const navigate = useNavigate();
 
   // ========================== GETTING THE WEEKLY TOP DATA ===================================
 
-  const getData = async () => {
-    let reqopt = {
-      method: "GET",
-      headers: { "Content-Type": "text/json" },
+  useEffect(() => {
+    const fetchData = async (link) => {
+      let data = await TopBooks(link);
+      setWeeklyTop(data);
     };
 
-    let result = await fetch("http://127.0.0.1:8000/weeklytop", reqopt);
-    let response = await result.json();
-    setWeeklyTop(response);
-  };
-
-  useEffect(() => {
-    getData();
+    fetchData("weeklytop");
   }, []);
 
   // ======================== GETTING THE WIDTH OF THE DIV ===============================
@@ -72,12 +69,17 @@ const Carousel = () => {
         >
           {weeklyTop.map((item, index) => (
             <div
+              onClick={() =>
+                navigate("/user/dashboard/more", {
+                  state: item,
+                })
+              }
               key={index}
               style={{
                 transform: `translateX(-${current * slideWidth}px)`,
                 opacity: current === index ? 1 : 0,
-
-                transition: "transform 5ms linear ,opacity 400ms linear",
+                cursor: "pointer",
+                transition: "transform 5ms linear ,opacity 400ms linear ",
               }}
               className="min-w-full "
             >

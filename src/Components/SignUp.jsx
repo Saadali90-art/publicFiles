@@ -2,6 +2,7 @@ import "../animation.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SignUpContainer from "./subcomponent/3.SignUp/SignUpContainer";
+import sendData from "./Requests/SignUp/Signup.js";
 
 const SignUp = () => {
   // ==============  HOOKS ---------------------------
@@ -12,33 +13,6 @@ const SignUp = () => {
   const [showerror, setshowerror] = useState(false);
   const [showpass, setshowpass] = useState(false);
   const navigate = useNavigate();
-
-  // =================== SENDING DATA TO DB ==================================
-
-  const sendData = async (data) => {
-    let infodata = JSON.stringify(data);
-
-    let reqOpt = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: infodata,
-    };
-
-    let result = await fetch("http://127.0.0.1:8000/", reqOpt);
-
-    let response = await result.json();
-
-    if (!result.ok) {
-      seterrorobj((pre) => {
-        return [response, ...pre];
-      });
-    } else {
-      localStorage.setItem("tokenuserin", response.token);
-      if (response.message === "Data Sended TO DB") {
-        navigate("/");
-      }
-    }
-  };
 
   // ================================ SUBMITTING THE FORM =================================
 
@@ -85,7 +59,7 @@ const SignUp = () => {
     } else {
       if (!isNaN(datainfo.phone) && formentry.password === formentry.confirm) {
         try {
-          sendData(datainfo);
+          sendData(datainfo, "signup", seterrorobj, navigate);
         } catch (error) {
           console.log("Error While Sending Data To DB", error.message);
         }

@@ -13,7 +13,10 @@ const deleteUser = async (req, res) => {
     let secretkey = process.env.secretkey;
     let tokendata = await jsonwebtoken.verify(data, secretkey);
 
-    await SignModel.deleteOne({ _id: tokendata });
+    await SignModel.deleteOne({
+      name: tokendata.name,
+      userId: tokendata.userId,
+    });
     res.status(200).json({ message: "User Deleted" });
   } catch (error) {
     console.log("Error While Deleting The User Data", error.message);

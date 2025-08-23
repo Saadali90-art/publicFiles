@@ -34,12 +34,6 @@ const PublishForm = ({
             {/* =========================== CATEGORY SECTION ======================================= */}
 
             <p className="text-[17px] py-[10px]">Category</p>
-            {/* <input
-              type="text"
-              name="category"
-              placeholder="Category.."
-              className="w-full mx-auto outline-black outline-[1px] hover:outline-blue-400 focus:outline-blue-400  rounded-lg px-[10px] py-[5px] transition-all duration-400 ease"
-            /> */}
 
             <select
               name="category"
@@ -48,8 +42,57 @@ const PublishForm = ({
               <option value="Fantasy">Fantasy</option>
               <option value="Romance">Romance</option>
               <option value="Fiction">Fiction</option>
-              <option value="Cartoons">Cartoons</option>
-              <option value="Empty">None</option>
+              <option value="Drama">Drama</option>
+              <option value="Comedy">Comedy</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Mystery">Mystery</option>
+              <option value="Thriller">Thriller</option>
+              <option value="Horror">Horror</option>
+              <option value="Historical">Historical</option>
+              <option value="Slice of Life">Slice of Life</option>
+              <option value="Science Fiction">Science Fiction</option>
+              <option value="Supernatural">Supernatural</option>
+              <option value="Psychological">Psychological</option>
+              <option value="Action">Action</option>
+              <option value="Martial Arts">Martial Arts</option>
+              <option value="Sports">Sports</option>
+              <option value="Music">Music</option>
+
+              {/* ==== Anime Specific ==== */}
+              <option value="Shonen">Shonen</option>
+              <option value="Shojo">Shojo</option>
+              <option value="Seinen">Seinen</option>
+              <option value="Josei">Josei</option>
+              <option value="Isekai">Isekai</option>
+              <option value="Mecha">Mecha</option>
+              <option value="Ecchi">Ecchi</option>
+              <option value="Harem">Harem</option>
+              <option value="Reverse Harem">Reverse Harem</option>
+              <option value="Magical Girl">Magical Girl</option>
+              <option value="Post-Apocalyptic">Post-Apocalyptic</option>
+              <option value="Cyberpunk">Cyberpunk</option>
+              <option value="Military">Military</option>
+              <option value="Demons">Demons</option>
+              <option value="Vampires">Vampires</option>
+              <option value="School">School</option>
+              <option value="Game">Game</option>
+
+              {/* ==== Novel Specific ==== */}
+              <option value="Biography">Biography</option>
+              <option value="Autobiography">Autobiography</option>
+              <option value="Poetry">Poetry</option>
+              <option value="Classic Literature">Classic Literature</option>
+              <option value="Young Adult">Young Adult</option>
+              <option value="Children">Children</option>
+              <option value="Crime">Crime</option>
+              <option value="Philosophy">Philosophy</option>
+              <option value="Non-Fiction">Non-Fiction</option>
+              <option value="Self-Help">Self-Help</option>
+              <option value="Educational">Educational</option>
+              <option value="Spiritual">Spiritual</option>
+
+              {/* ==== Fallback ==== */}
+              <option value="None">None</option>
             </select>
 
             {/* =========================== GENDER SECTION ======================================= */}

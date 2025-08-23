@@ -1,15 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navigation from "./subcomponent/1.Home/Navigation";
-import { CiStar } from "react-icons/ci";
-import { FaStar } from "react-icons/fa";
 import { TbCategoryPlus } from "react-icons/tb";
 import { CgGenderFemale } from "react-icons/cg";
 import { CgGenderMale } from "react-icons/cg";
-import { FaRegCalendarAlt } from "react-icons/fa";
-import { TfiControlShuffle } from "react-icons/tfi";
 import { FaEye } from "react-icons/fa";
 import Cards from "./Cards";
+import MoreDetail from "./Requests/MoreDetails/More.js";
 
 const MoreDetails = () => {
   const location = useLocation();
@@ -24,20 +21,13 @@ const MoreDetails = () => {
 
   // ========================== FINDING DATA IN DATA BASE ============================
 
-  const getMoreInfo = async () => {
-    let reqopt = {
-      method: "POST",
-      body: JSON.stringify({ id: data }),
-      headers: { "Content-Type": "application/json" },
+  useEffect(() => {
+    const fetchData = async (data, link) => {
+      let moreDetails = await MoreDetail(data, link);
+      setMoreInfo(moreDetails);
     };
 
-    let result = await fetch("http://127.0.0.1:8000/getmoreinfo", reqopt);
-    let response = await result.json();
-    setMoreInfo(response);
-  };
-
-  useEffect(() => {
-    getMoreInfo();
+    fetchData({ id: data }, "getmoreinfo");
   }, []);
 
   //======================== GETTING THE LIKED DATA  =============================

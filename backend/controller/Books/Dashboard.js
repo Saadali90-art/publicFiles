@@ -16,7 +16,7 @@ const getPublish = async (req, res) => {
     let data = await Publish.find({ userId: tokendata.userId });
 
     if (data.length !== 0) {
-      res.status(200).json(data);
+      res.status(200).json({ message: data });
     } else {
       res.status(201).json({ message: "Data Not Present" });
     }

@@ -7,25 +7,20 @@ import { FaArrowRight } from "react-icons/fa6";
 import "../../../animation.css";
 import JoinUs from "../../../assets/JoinUs.png";
 import Footer from "../1.Home/Footer";
+import discoveritems from "./Requests/discoveritems.js";
 
 const Discover = () => {
   const [discover, setDiscover] = useState([]);
   const navigate = useNavigate();
 
-  const discoveritems = async () => {
-    let reqopt = {
-      method: "GET",
-      headers: { "Content-Type": "text/json" },
+  useEffect(() => {
+    const fetchData = async () => {
+      let data = await discoveritems("discover");
+      setDiscover(data);
     };
 
-    let result = await fetch("http://127.0.0.1:8000/discover", reqopt);
-    let response = await result.json();
-    setDiscover(response);
-  };
-
-  useEffect(() => {
-    discoveritems();
-  }, []);
+    fetchData(), [];
+  });
 
   const handlemore = (item) => {
     if (item !== null) {
@@ -91,9 +86,10 @@ const Discover = () => {
             </p>
 
             <div className="flex flex-wrap justify-evenly gap-x-[10px] ">
-              {discover.map((item, index) => (
-                <Cards handlemore={handlemore} item={item} key={index} />
-              ))}
+              {discover !== null &&
+                discover.map((item, index) => (
+                  <Cards handlemore={handlemore} item={item} key={index} />
+                ))}
             </div>
           </div>
         </section>

@@ -9,6 +9,7 @@ import MoreDetails from "./Components/MoreDetails";
 import Cart from "./Components/Cart";
 import PrivateAccess from "./Components/PrivateAccess";
 import Empower from "./Components/Empower";
+import SearchedData from "./Components/SearchedData";
 
 const App = () => {
   return (
@@ -50,6 +51,8 @@ const App = () => {
         <Route path="/user/dashboard/more" element={<MoreDetails />}></Route>
 
         <Route path="/empowering/:id" element={<Empower />}></Route>
+
+        <Route path="/search/:id" element={<SearchedData />}></Route>
       </Routes>
     </Router>
   );

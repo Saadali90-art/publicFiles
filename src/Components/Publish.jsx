@@ -3,6 +3,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import "../animation.css";
 import PublishForm from "./subcomponent/5.Publish/PublishForm";
+import sendData from "./Requests/Publish/PublishData";
 
 const Publish = () => {
   // =========== HOOKS OR OTHER DATA =====================
@@ -22,33 +23,6 @@ const Publish = () => {
     window.addEventListener("drop", (e) => e.preventDefault());
     window.addEventListener("dragover", (e) => e.preventDefault());
   }, []);
-
-  // ============================== SENDING DATA TO DB ========================
-
-  const sendData = async (data) => {
-    let token = localStorage.getItem("tokenuserin");
-
-    let reqOpt = {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json", tokenuser: token },
-    };
-
-    let result = await fetch("http://127.0.0.1:8000/user/publish", reqOpt);
-    console.log(result);
-
-    if (!result.ok) {
-      let response = await result.json();
-      if (response.message === "Data Not Present") {
-        seterror(true);
-        setTimeout(() => {
-          seterror(false);
-        }, 4000);
-      }
-    } else {
-      navigate("/user/dashboard");
-    }
-  };
 
   // ============== FORM DATA TO OBJECT ======================
 
@@ -70,7 +44,7 @@ const Publish = () => {
     };
 
     try {
-      sendData(DataPost);
+      sendData(DataPost, "user/publish", seterror, navigate);
     } catch (error) {
       console.log("Error While Giving Data", error.message);
     }

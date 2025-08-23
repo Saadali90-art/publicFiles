@@ -16,19 +16,21 @@ const Cards = ({ index, handlemore, item }) => {
         />
       </div>
 
-      <p
-        style={{
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          display: "-webkit-box",
-          WebkitBoxOrient: "vertical",
-          WebkitLineClamp: 2,
-        }}
-        className="text-[15px] font-[600]  py-[10px] w-full h-[60px] max-[368px]:text-[10px]"
-      >
-        {item.title}
-      </p>
-      <p className="text-[13px] text-gray-600">{item.category}</p>
+      <div className="flex flex-col w-full">
+        <p
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 2,
+          }}
+          className="text-[15px] font-[600]  py-[10px] w-full h-[60px] max-[368px]:text-[10px]"
+        >
+          {item.title}
+        </p>
+        <p className="text-[13px] text-gray-600">{item.category}</p>
+      </div>
     </div>
   );
 };

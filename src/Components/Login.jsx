@@ -1,39 +1,13 @@
-// ============== Notes =================
-// in easy words when flex and flex-colis usd then the children will get the full width and by mx-auto center the children eleements
-
-// ================ CODE
-
 import { useNavigate } from "react-router-dom";
 import "../animation.css";
 import { useState } from "react";
 import LogInContainer from "./subcomponent/2.Login/LogInContainer";
+import LogDataSend from "./Requests/LogIn/Login.js";
 
 const Login = () => {
   const [logerror, setlogerror] = useState(false);
   const navigate = useNavigate();
 
-  // ============FUNCTION SENDING DATA TO DB ===============
-
-  const LogDataSend = async (data) => {
-    let reqOpt = {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    };
-
-    let result = await fetch("http://127.0.0.1:8000/login", reqOpt);
-
-    if (result.ok) {
-      let response = await result.json();
-      localStorage.setItem("tokenuserin", response.token);
-      navigate("/");
-    } else {
-      setlogerror(true);
-      setTimeout(() => {
-        setlogerror(false);
-      }, 3000);
-    }
-  };
   // ================GETTING INFO FROM THE INPUT FIELDS ===================
 
   const handlesubmit = (e) => {
@@ -49,7 +23,7 @@ const Login = () => {
     };
 
     try {
-      LogDataSend(dataobj);
+      LogDataSend(dataobj, "login", navigate, setlogerror);
     } catch (error) {
       console.log("Can Not Give Data To Log Data ", error.messsage);
     }

@@ -19,4 +19,22 @@ const novelinfo = [
   },
 ];
 
-export default novelinfo;
+const fanficTags = [
+  "Shonen",
+  "Shojo",
+  "Seinen",
+  "Josei",
+  "Isekai",
+  "Harem",
+  "Reverse Harem",
+  "Magical Girl",
+  "School",
+  "Mecha",
+  "Game",
+  "Demons",
+  "Vampires",
+  "Cyberpunk",
+  "Post-Apocalyptic",
+];
+
+export { fanficTags, novelinfo };

@@ -3,6 +3,7 @@ import "../animation.css";
 import { useState } from "react";
 import LogInContainer from "./subcomponent/2.Login/LogInContainer";
 import LogDataSend from "./Requests/LogIn/Login.js";
+import bgimg from "../assets/Login//bgimg.jpg";
 
 const Login = () => {
   const [logerror, setlogerror] = useState(false);
@@ -31,7 +32,8 @@ const Login = () => {
 
   return (
     <div
-      className="container max-w-screen h-screen bg-[url('https://img.freepik.com/free-vector/pink-blue-swirl-gradient_78370-261.jpg?t=st=1753040397~exp=1753043997~hmac=67aa93f6e498f3fac481bb715a2d9a33be318d7624d3def4b028b9e290ef1b43&w=826')] 
+      style={{ backgroundImage: `url(${bgimg})` }}
+      className="container max-w-screen h-screen
    bg-no-repeat bg-cover flex justify-center items-center"
     >
       <LogInContainer handlesubmit={handlesubmit} logerror={logerror} />

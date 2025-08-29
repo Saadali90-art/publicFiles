@@ -1,9 +1,9 @@
-import reading from "../../../../assets/reading.jpg";
-import voice from "../../../../assets/voice.jpg";
-import nuture from "../../../../assets/nuture.jpg";
-import connect from "../../../../assets/connect.jpg";
-import accessible from "../../../../assets/accessible.jpg";
-import preserve from "../../../../assets/preserve.jpg";
+import reading from "../../../../assets/Writing/reading.jpg";
+import voice from "../../../../assets/Writing/voice.jpg";
+import nuture from "../../../../assets/Writing/nuture.jpg";
+import connect from "../../../../assets/Writing/connect.jpg";
+import accessible from "../../../../assets/Writing/accessible.jpg";
+import preserve from "../../../../assets/Writing/preserve.jpg";
 
 const missionData = [
   {

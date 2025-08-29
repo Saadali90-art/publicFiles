@@ -4,7 +4,7 @@ const alsolike = async (req, res) => {
   let { category } = req.body;
 
   try {
-    let result = await Publish.find({ category: category });
+    let result = await Publish.find({ category: category }).limit(6);
 
     res.status(200).json({ message: result });
   } catch (error) {

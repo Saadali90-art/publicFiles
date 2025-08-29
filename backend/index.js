@@ -4,8 +4,9 @@ import cors from "cors";
 import router from "./route/router.js";
 import connectDB from "./connect.js";
 
-dotenv.config();
 let app = express();
+
+dotenv.config();
 let PORT = process.env.PORT;
 let db_url = process.env.db_url;
 

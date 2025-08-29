@@ -16,6 +16,8 @@ import MontlyPicks from "../controller/Books/MontlyPicks.js";
 import SignInData from "../controller/UserInfo/SignInData.js";
 import Titles from "../controller/Books/Titles.js";
 import Search from "../controller/Books/Search.js";
+import CategoryData from "../controller/Books/CategoryData.js";
+import accountInfo from "../controller/UserInfo/AccountInfo.js";
 
 let router = express.Router();
 
@@ -52,5 +54,13 @@ router.get("/monthlypicks", MontlyPicks);
 router.get("/titles", Titles);
 
 router.get("/searches", Search);
+
+router.post("/category", CategoryData);
+
+router.get("/allBooks", Search);
+
+router.get("/myaccount", SignInData);
+
+router.post("/changeinfo", accountInfo);
 
 export default router;

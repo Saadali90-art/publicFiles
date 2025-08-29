@@ -8,7 +8,6 @@ import dotenv from "dotenv";
 const SignInData = async (req, res) => {
   let tokenfront = req.headers.authorization;
 
-  dotenv.config();
   let secretkey = process.env.secretkey;
 
   let tokendata = await jsonwebtoken.verify(tokenfront, secretkey);

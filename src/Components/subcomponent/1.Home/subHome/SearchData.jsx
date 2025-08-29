@@ -1,0 +1,79 @@
+import { IoClose, IoSearch } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+
+const SearchData = ({
+  search,
+  searchInfo,
+  handleSearch,
+  handleSearchOff,
+  suggestArr,
+  suggestion,
+  handleValue,
+}) => {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <div
+        className="w-full absolute top-0 h-[70px]"
+        style={{
+          opacity: search ? 1 : 0,
+          transform: search ? "translateX(0)" : "translateX(1350px)",
+          transition: "transform 500ms ease, opacity 300ms ease",
+        }}
+      >
+        <div className="flex items-center w-full h-full justify-center gap-x-[10px]">
+          <div className="flex items-center bg-gray-200 rounded-2xl px-[10px] py-[4px] ">
+            <IoSearch />
+            <input
+              type="text"
+              value={searchInfo}
+              placeholder="Search.."
+              onChange={handleSearch}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  navigate(`/search/${searchInfo}`);
+                }
+              }}
+              className="w-[550px] h-[30px] px-[10px] py-[6px] text-[15px] outline-none  "
+            />
+            <button
+              className="w-[30px] h-[30px] rounded-[50%] cursor-pointer flex items-center justify-center "
+              onClick={handleSearchOff}
+            >
+              <IoClose />
+            </button>
+          </div>
+        </div>
+        <div className="flex-grow h-[2px] bg-[#eaeaea]"></div>
+      </div>
+
+      {/* ================================== SUGGESTION BOX ================================ */}
+
+      {suggestion && (
+        <div className="absolute top-[70px] left-[27.3%] w-[615px] min-h-[80px] border-[2px] bg-white border-gray-200 rounded-md">
+          {suggestArr.length === 0 ? (
+            <div className="w-full h-[80px] flex items-center justify-center">
+              <p className="text-black font-[500]">No Records Found</p>
+            </div>
+          ) : (
+            <div>
+              {suggestArr.map((item, index) => (
+                <p
+                  key={index}
+                  className="text-sm px-[10px] py-[8px] hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleValue(item)}
+                >
+                  {item}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
+
+export default SearchData;

@@ -43,7 +43,6 @@ const sendData = async (req, res) => {
       let result = await SignModel.insertOne(data);
       console.log("Data Sended TO DB");
 
-      dotenv.config();
       let secretkey = process.env.secretkey;
 
       let token = await jsonwebtoken.sign(

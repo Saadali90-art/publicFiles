@@ -7,7 +7,6 @@ import Publish from "../../Model/PublishModel.js";
 const getPublish = async (req, res) => {
   let token = req.headers.tokenuser;
 
-  dotenv.config();
   let secretkey = process.env.secretkey;
 
   let tokendata = await jsonwebtoken.verify(token, secretkey);

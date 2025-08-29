@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import logoMain from "../../../assets/logoMain.webp";
-import bgimg from "../../../assets/bgimg.jpg";
+import logoMain from "../../../assets/Navigation/logoMain.webp";
+import bgimg from "../../../assets/Login/bgimg.jpg";
 import "../../../animation.css";
 
 const LogInContainer = ({ handlesubmit, logerror }) => {
@@ -14,9 +14,9 @@ const LogInContainer = ({ handlesubmit, logerror }) => {
             className="w-[90px] h-[90px] max-[369px]:w-[80px] max-[369px]:h-[80px] mx-auto rounded-[50%]"
           />
           <h3
-            className="font-[900] text-[50px] max-[369px]:text-[35px] text-transparent bg-clip-text px-[35px] max-[369px]:px-[25px] bg-cover"
+            className="font-[600] text-[32px] max-[369px]:text-[35px] text-transparent bg-clip-text px-[35px] max-[369px]:px-[25px] bg-cover pb-[10px]"
             style={{
-              fontFamily: "'Dancing Script', sans-serif",
+              fontFamily: "Playfair Display SC, sans-serif",
               backgroundImage: `url(${bgimg})`,
               animation: "mover 8s ease infinite",
             }}
@@ -34,13 +34,13 @@ const LogInContainer = ({ handlesubmit, logerror }) => {
               type="email"
               placeholder="Email Address"
               name="email"
-              className="bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px] text-[#757575] text-[15px] font-[600] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
+              className="bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px] text-[15px] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
             />
             <input
               type="password"
               placeholder="Password "
               name="password"
-              className="bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none text-[#757575] text-[15px] font-[600] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
+              className="bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none text-[15px] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
             />
           </form>
 

@@ -14,19 +14,20 @@ const SignUpForm = ({ handlesubmit, showpass, setshowpass }) => {
           type="text"
           placeholder="Enter Your Name"
           name="name"
-          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px]  text-[15px] font-[600] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d] mt-[15px] text-[#757575] "
+          minLength={4}
+          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px]  text-[15px]  select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d] mt-[15px]  "
         />
         <input
           type="email"
           placeholder="Email Address"
           name="email"
-          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px] text-[#757575] text-[15px] font-[600] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
+          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px]  text-[15px]  select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
         />
         <input
           type={showpass ? "text" : "password"}
           placeholder="Password"
           name="password"
-          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px] text-[#757575] text-[15px] font-[600] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
+          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px]  text-[15px]  select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
         />
 
         <button
@@ -41,13 +42,14 @@ const SignUpForm = ({ handlesubmit, showpass, setshowpass }) => {
           type={showpass ? "text" : "password"}
           name="confirm"
           placeholder="Confirm Password"
-          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px] text-[#757575] text-[15px] font-[600] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
+          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px]  text-[15px] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
         />
         <input
           type="text"
           placeholder="Phone Number"
           name="phone"
-          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px] text-[#757575] text-[15px] font-[600] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
+          minLength={10}
+          className=" bg-black/10 px-[15px] py-[5px] rounded-2xl outline-none my-[10px]  text-[15px] select-none max-[369px]:text-[12px] max-[369px]:text-[#4d4d4d]"
         />
       </form>
     </>

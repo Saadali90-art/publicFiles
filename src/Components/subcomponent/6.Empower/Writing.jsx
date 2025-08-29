@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import Navigation from "../1.Home/Navigation";
 import { FaArrowRight } from "react-icons/fa6";
-import getStarted from "../../../assets/getstarted.png";
-import writter from "../../../assets/writter.png";
+import getStarted from "../../../assets/Writing/getstarted.png";
+import writter from "../../../assets/Writing/writter.png";
 import Footer from "../1.Home/Footer";
 import { practices } from "./subcomponent/db.js";
 import Practices from "./subcomponent/Practices.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Writing = () => {
   const [current, setcurrent] = useState(null);
+  const navigate = useNavigate();
+
+  const handlejoin = () => {
+    let token = localStorage.getItem("tokenuserin");
+
+    if (token) {
+      navigate("/user/publish");
+    } else {
+      navigate("/signup");
+    }
+  };
 
   return (
     <div>
@@ -19,7 +31,10 @@ const Writing = () => {
       <main className="mt-[90px]">
         {/* ============================== HERO SECTION ================================ */}
 
-        <section className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] mx-auto relative">
+        <section
+          id="writing"
+          className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] mx-auto relative"
+        >
           <div
             style={{
               backgroundImage: `url(${writter})`,

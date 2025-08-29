@@ -4,7 +4,6 @@ import SignModel from "../../Model/SignInModel.js";
 
 const ProtectedPages = async (req, res) => {
   let token = req.headers.token;
-  dotenv.config();
   let secretkey = process.env.secretkey;
 
   if (token) {

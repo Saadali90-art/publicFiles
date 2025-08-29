@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { IoClose, IoSearch } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import newBooks from "./Requests/Home Requests/NewBooks.js";
-import { FaEye } from "react-icons/fa";
-import { TbCategoryPlus } from "react-icons/tb";
 import DataCards from "./subcomponent/4.Dashboard/DataCards.jsx";
 
 const SearchedData = () => {
@@ -29,7 +27,7 @@ const SearchedData = () => {
   useEffect(() => {
     setSearchData(
       totalData.filter((item) =>
-        item.title.toLowerCase().includes(search.toLowerCase())
+        item.title.toLowerCase().includes(search?.toLowerCase())
       )
     );
   }, [totalData, search]);
@@ -63,14 +61,20 @@ const SearchedData = () => {
           Number Of Matches : {searchData.length}
         </p>
         <div className="w-full flex justify-center flex-wrap gap-x-[20px] gap-y-[10px] select-none">
-          {searchData.map((item, index) => (
-            <DataCards
-              item={item}
-              index={index}
-              key={index}
-              navigate={navigate}
-            />
-          ))}
+          {searchData.length <= 0 ? (
+            <div className="w-full h-[200px] flex items-center justify-center">
+              <p className="text-[17px] font-[600]">No Items Found</p>
+            </div>
+          ) : (
+            searchData.map((item, index) => (
+              <DataCards
+                item={item}
+                index={index}
+                key={index}
+                navigate={navigate}
+              />
+            ))
+          )}
         </div>
       </div>
     </main>

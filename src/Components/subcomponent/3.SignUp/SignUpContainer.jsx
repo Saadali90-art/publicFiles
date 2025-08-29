@@ -1,10 +1,10 @@
-import logoMain from "../../../assets/logoMain.webp";
+import logoMain from "../../../assets/Navigation/logoMain.webp";
 import "../../../animation.css";
-import bgimg from "../../../assets/bgimg.jpg";
+import bgimg from "../../../assets/Login/bgimg.jpg";
 import { Link } from "react-router-dom";
 import SignUpForm from "./SignUpForm";
-import facebook from "../../../assets/facebook.png";
-import instagram from "../../../assets/instagram.png";
+import facebook from "../../../assets/SignUp/facebook.png";
+import instagram from "../../../assets/SignUp/instagram.png";
 
 const SignUpContainer = ({
   handlesubmit,
@@ -29,9 +29,9 @@ const SignUpContainer = ({
               className="w-[70px] h-[70px] max-[369px]:w-[50px] max-[369px]:h-[50px] rounded-[50%]"
             />
             <h1
-              className="font-[900] text-[40px] max-[369px]:text-[30px] text-transparent bg-clip-text px-[20px] max-[369px]:px-[10px] bg-cover"
+              className="font-[600] text-[28px] max-[369px]:text-[30px] text-transparent bg-clip-text px-[20px] max-[369px]:px-[10px] bg-cover"
               style={{
-                fontFamily: "'Dancing Script', sans-serif",
+                fontFamily: "Playfair Display SC, sans-serif",
                 backgroundImage: `url(${bgimg})`,
                 animation: "mover 8s ease infinite",
               }}

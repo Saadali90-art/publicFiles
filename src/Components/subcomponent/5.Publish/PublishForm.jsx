@@ -142,8 +142,6 @@ const PublishForm = ({
               style={{
                 opacity: url || browse || drop ? 0 : 1,
                 height: url || browse || drop ? "0px" : "90px",
-                // transform:
-                //   url || browse || drop ? "translateX(500px)" : "translateX(0px)",
                 transition: "height ease 500ms, opacity ease 500ms",
                 paddingBottom: "5px",
                 overflow: "hidden",

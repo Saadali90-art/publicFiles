@@ -33,7 +33,6 @@ const Login = async (req, res) => {
     if (await verifyLogin(data)) {
       let result = await SignModel.findOne({ email: data.email });
 
-      dotenv.config();
       let secretkey = process.env.secretkey;
 
       let token = await jsonwebtoken.sign(

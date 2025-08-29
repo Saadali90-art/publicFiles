@@ -1,6 +1,6 @@
 import React from "react";
 import Navigation from "../1.Home/Navigation";
-import mission from "../../../assets/mission.jpeg";
+import mission from "../../../assets/mission/mission.jpeg";
 import { missionData, pricingPlans } from "./subcomponent/db.js";
 import MissionCards from "./subcomponent/MissionCards";
 import PricingCards from "./subcomponent/PricingCards";
@@ -63,10 +63,7 @@ const Mission = () => {
 
         {/* ========================= PRICING SECTION =================================== */}
 
-        <section
-          id="premium"
-          className="w-full mt-[20px] min-h-[550px] mb-[60px]  "
-        >
+        <section className="w-full mt-[20px] min-h-[550px] mb-[60px]  ">
           <div className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] h-full mx-auto ">
             <p
               style={{ fontFamily: " Archivo, serif" }}
@@ -78,7 +75,10 @@ const Mission = () => {
 
           {/* ======================== PRICING CARDS ===============================  */}
 
-          <div className="w-[35%]  max-[1170px]:w-[80%]  max-[924px]:w-[90%] max-[350px]:w-[95%] h-full mx-auto flex items-center justify-center">
+          <div
+            id="premium"
+            className="w-[35%]  max-[1170px]:w-[80%]  max-[924px]:w-[90%] max-[350px]:w-[95%] h-full mx-auto flex items-center justify-center"
+          >
             <div className="w-full flex max-[894px]:flex-col max-[894px]:gap-y-[40px] mx-auto justify-center gap-x-[40px]">
               {pricingPlans.map((item, index) => (
                 <PricingCards item={item} key={index} index={index} />

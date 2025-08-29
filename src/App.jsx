@@ -10,6 +10,8 @@ import Cart from "./Components/Cart";
 import PrivateAccess from "./Components/PrivateAccess";
 import Empower from "./Components/Empower";
 import SearchedData from "./Components/SearchedData";
+import Categories from "./Components/Categories";
+import MyAccount from "./Components/MyAccount";
 
 const App = () => {
   return (
@@ -46,13 +48,24 @@ const App = () => {
               </PrivateAccess>
             }
           ></Route>
+
+          <Route
+            path=":id"
+            element={
+              <PrivateAccess>
+                <MyAccount />
+              </PrivateAccess>
+            }
+          ></Route>
         </Route>
 
         <Route path="/user/dashboard/more" element={<MoreDetails />}></Route>
 
         <Route path="/empowering/:id" element={<Empower />}></Route>
 
-        <Route path="/search/:id" element={<SearchedData />}></Route>
+        <Route path="/search/:id?" element={<SearchedData />}></Route>
+
+        <Route path="/category/:id" element={<Categories />}></Route>
       </Routes>
     </Router>
   );

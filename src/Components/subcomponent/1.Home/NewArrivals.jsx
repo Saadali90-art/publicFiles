@@ -1,14 +1,14 @@
 import React from "react";
-import Cards from "../../Cards";
+import Cards from "./subHome/Cards";
 
 const NewArrivals = ({ handlemore, newArrival }) => {
   return (
     <>
-      <div className="container max-w-[100%] mb-[20px] h-[420px] mt-[20px] ">
+      <div className="container max-w-[100%] bg-[#e6e5e5] min-h-[420px] mt-[20px]">
         <div className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] relative mx-auto ">
           <h1 className="text-[24px] font-[700] py-[20px]">New Arrivals</h1>
 
-          <div className="flex flex-wrap justify-between ">
+          <div className="flex min-h-[320px]  flex-wrap justify-evenly gap-x-[10px] gap-y-[15px] pb-[20px]">
             {newArrival.map((item, index) => (
               <Cards
                 handlemore={handlemore}

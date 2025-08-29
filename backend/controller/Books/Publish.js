@@ -8,7 +8,6 @@ const PublishOne = async (req, res) => {
   let { title, category, gender, description, price, image } = req.body;
   let token = req.headers.tokenuser;
 
-  dotenv.config();
   let secretkey = process.env.secretkey;
 
   let tokeninfo = await jsonwebtoken.verify(token, secretkey);

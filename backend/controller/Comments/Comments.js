@@ -7,7 +7,6 @@ const comment = async (req, res) => {
   let { token, commentValue, title } = req.body;
   let data = { token, commentValue, title };
 
-  dotenv.config();
   let secretkey = process.env.secretkey;
 
   let tokendata = await jsonwebtoken.verify(data.token, secretkey); //=> name userid
@@ -32,7 +31,7 @@ const comment = async (req, res) => {
     });
     console.log("Comment Inserted To DB");
 
-    res.status(200).send("Comment Added To DB");
+    res.status(200).json({ message: "Comment Added To DB" });
   } catch (error) {
     console.log(error.message);
     res.status(400).send("Comment Not Added To DB");

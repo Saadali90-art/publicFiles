@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navigation from "../1.Home/Navigation";
-import discovering from "../../../assets/discover.png";
-import Cards from "../../Cards";
+import discovering from "../../../assets/Discover/discover.png";
+import Cards from "../1.Home/subHome/Cards.jsx";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa6";
 import "../../../animation.css";
-import JoinUs from "../../../assets/JoinUs.png";
+import JoinUs from "../../../assets/Discover/JoinUs.png";
 import Footer from "../1.Home/Footer";
 import discoveritems from "./Requests/discoveritems.js";
 
@@ -16,7 +16,7 @@ const Discover = () => {
   useEffect(() => {
     const fetchData = async () => {
       let data = await discoveritems("discover");
-      setDiscover(data);
+      setDiscover(data.sort((a, b) => b.views - a.views).slice(0, 6));
     };
 
     fetchData(), [];
@@ -85,7 +85,7 @@ const Discover = () => {
               What You’ll Discover
             </p>
 
-            <div className="flex flex-wrap justify-evenly gap-x-[10px] ">
+            <div className="flex flex-wrap justify-evenly gap-x-[10px] gap-y-[15px] max-[368px]:gap-y-[0px] pb-[20px] ">
               {discover !== null &&
                 discover.map((item, index) => (
                   <Cards handlemore={handlemore} item={item} key={index} />

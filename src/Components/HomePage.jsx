@@ -4,53 +4,60 @@ import Carousel from "./subcomponent/1.Home/Carousel";
 import Navigation from "./subcomponent/1.Home/Navigation";
 import WebNovels from "./subcomponent/1.Home/WebNovels";
 import TopPicks from "./subcomponent/1.Home/TopPicks";
-import novelinfo from "./db/data.js";
 import { useNavigate } from "react-router-dom";
 import newBooks from "./Requests/Home Requests/NewBooks.js";
-import deleteUser from "./Requests/Home Requests/DeleteUser.js";
 import NewArrivals from "./subcomponent/1.Home/NewArrivals.jsx";
+import { fanficTags, novelinfo } from "./db/data.js";
+import Footer from "./subcomponent/1.Home/Footer.jsx";
+import FanFic from "./subcomponent/1.Home/FanFic.jsx";
+import PopularTags from "./subcomponent/1.Home/PopularTags.jsx";
 
 const HomePage = () => {
-  // ===================== FUNCTIONS CHANGING VARIABLES ==========================
-
-  const [showpop, setshowpop] = useState(false);
+  const [fanfic, setFanfic] = useState("");
+  const [popularTags, setPopularTags] = useState([]);
   const navigate = useNavigate();
-
-  const [current, setcurrent] = useState(() => {
-    let savedata = localStorage.getItem("current");
-    return savedata ? JSON.parse(savedata) : 0;
-  });
-
   const [newArrival, setNewArrival] = useState([]);
-
-  // ================== CHANGING THE ITEMS OF TOP PICKS AT REFRESH ===========================
-
-  useEffect(() => {
-    localStorage.setItem("current", JSON.stringify(current));
-    if (current === 0 || current === 1 || current === 2) {
-      localStorage.setItem("current", JSON.stringify(current + 1));
-    }
-    if (current >= 3) {
-      localStorage.setItem("current", JSON.stringify(0));
-    }
-  }, []);
 
   // =================================== NEW ARRIVALS ===================================
 
   useEffect(() => {
     const fetchData = async (link) => {
       let data = await newBooks(link);
-      setNewArrival(data);
+      setNewArrival(
+        data.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 6)
+      );
     };
 
     fetchData("newarrivals");
   }, []);
 
-  // =========================== DELETING POPUP=============================
+  // ========================== POPULAR TAGS =============================
 
-  const deletepopup = () => {
-    setshowpop(true);
-  };
+  useEffect(() => {
+    const fetchData = async (link) => {
+      let info = await newBooks(link);
+      let cateArr = info.map((item) => item.category);
+      let popularArr = [];
+      let tagCount = {};
+
+      cateArr.forEach((element) => {
+        tagCount[element] = (tagCount[element] || 0) + 1;
+      });
+
+      let key = Object.keys(tagCount);
+      let values = Object.values(tagCount);
+
+      for (let i = 0; i < key.length; i++) {
+        popularArr = [...popularArr, { tag: key[i], popular: values[i] }];
+      }
+
+      setPopularTags(
+        popularArr.sort((a, b) => b.popular - a.popular).slice(0, 20)
+      );
+    };
+
+    fetchData("allBooks");
+  }, []);
 
   // ========================== MORE DATA FOR HOME PAGE ==================================
 
@@ -60,56 +67,45 @@ const HomePage = () => {
     }
   };
 
+  // ================= MOVING TO CATEGORIES PAGE ===========================
+
+  const handleCategories = (item) => {
+    setFanfic(item);
+    navigate(`/category/${item}`);
+  };
+
   return (
-    <div
+    <main
       style={{
         fontFamily: "Open Sans, sans-serif",
         userSelect: "none",
       }}
     >
-      <Navigation deletepopup={deletepopup} />
-
-      {/* ================ Delete Pop Up =========================== */}
-
-      {showpop && (
-        <div className="w-screen h-screen absolute z-25 top-0 backdrop-brightness-70 flex items-center justify-center">
-          <div className="w-[600px] h-[110px] bg-white rounded-lg relative">
-            <p className="mx-[15px] my-[15px] font-[500]">
-              Do you really want to delete your account.
-            </p>
-
-            <div className="absolute bottom-[10px] right-[10px] ">
-              <button
-                onClick={() => deleteUser(setshowpop, "deleteUser")}
-                className=" bg-red-500 text-white border-transparent hover:bg-white hover:text-red-500 border-[2px]  hover:border-red-500 text-sm px-[12px] py-[5px] rounded-md mr-[5px] font-[600] cursor-pointer "
-              >
-                Yes
-              </button>
-              <button
-                onClick={() => setshowpop(false)}
-                className=" bg-blue-500 text-white border-transparent hover:bg-white hover:text-blue-500  border-[2px] hover:border-blue-500 text-sm px-[12px] py-[5px] rounded-md font-[600] cursor-pointer "
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Navigation />
 
       {/* ================= BANNER SECTION =======================  */}
 
-      <div className=" w-[70%] h-[360px] mx-auto mt-[80px] flex justify-between ">
-        <Carousel />
+      <div className="w-full mx-auto">
+        <div className="container w-[70%] min-h-[360px] max-[1170px]:w-[80%] max-[924px]:w-[90%] mx-auto mt-[80px] max-[776px]:mt-[60px] flex max-[776px]:flex-col justify-between ">
+          <Carousel />
 
-        <WebNovels data={novelinfo} />
+          <WebNovels data={novelinfo} />
+        </div>
       </div>
 
       <TopPicks handlemore={handlemore} />
 
+      <FanFic handleCategories={handleCategories} fanficTags={fanficTags} />
+
       <NewArrivals handlemore={handlemore} newArrival={newArrival} />
 
-      {/* ========================= TOP FANFIC TAGS ============================ */}
-    </div>
+      <PopularTags
+        handleCategories={handleCategories}
+        popularTags={popularTags}
+      />
+
+      <Footer />
+    </main>
   );
 };
 

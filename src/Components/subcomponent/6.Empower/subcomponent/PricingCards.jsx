@@ -1,7 +1,7 @@
 import React from "react";
-import checkmark from "../../../../assets/checkmark.svg";
-import checkWhite from "../../../../assets/checkWhite.svg";
-import background from "../../../../assets/background.png";
+import checkmark from "../../../../assets/Mission/checkmark.svg";
+import checkWhite from "../../../../assets/Mission/checkWhite.svg";
+import background from "../../../../assets/Mission/background.png";
 
 const PricingCards = ({ item, index }) => {
   return (

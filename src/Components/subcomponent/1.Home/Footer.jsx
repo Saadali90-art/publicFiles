@@ -1,8 +1,7 @@
 import React from "react";
-import facebook from "../../../assets/facebook.png";
-import youtube from "../../../assets/youtube.png";
-import instagram from "../../../assets/instagram.png";
-import { Link } from "react-router-dom";
+import facebook from "../../../assets/SignUp/facebook.png";
+import youtube from "../../../assets/SignUp/youtube.png";
+import instagram from "../../../assets/SignUp/instagram.png";
 
 const Footer = () => {
   return (
@@ -23,17 +22,15 @@ const Footer = () => {
 
           <div className="flex gap-x-[20px] max-[627px]:flex-col max-[627px]:gap-y-[10px] max-[786px]:gap-x-[10px] items-center max-[786px]:text-sm max-[627px]:text-[16px]">
             <p className="cursor-pointer hover:underline underline-offset-[3px] text-white font-[400] ">
-              <Link to={"/empowering/our%20purpose%20%26%20plans"}>
-                Mission
-              </Link>
+              <a href={"/empowering/our%20purpose%20%26%20plans"}>Mission</a>
             </p>
             <p className="cursor-pointer hover:underline underline-offset-[3px] text-white font-[400] ">
-              <Link to={"/empowering/become%20a%20writer"}>Writing</Link>
+              <a href={"/empowering/become%20a%20writer#writing"}>Writing</a>
             </p>
             <p className="cursor-pointer hover:underline underline-offset-[3px] text-white font-[400]">
-              <Link to={"/empowering/our%20purpose%20%26%20plans#premium"}>
+              <a href={"/empowering/our%20purpose%20%26%20plans#premium"}>
                 Get Premium
-              </Link>
+              </a>
             </p>
           </div>
 

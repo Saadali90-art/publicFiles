@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import empty from "../assets/EmptyFolder.png";
+import empty from "../assets/DashBoard/EmptyFolder.png";
 import { IoIosArrowBack } from "react-icons/io";
 import DashboardCards from "./subcomponent/4.Dashboard/DashboardCards";
 import NoData from "./subcomponent/4.Dashboard/NoData";

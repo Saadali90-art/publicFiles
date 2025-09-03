@@ -84,7 +84,7 @@ const Carousel = () => {
               className="min-w-full "
             >
               <img
-                src={item.image}
+                src={`http://127.0.0.1:8000${item.bookImage}`}
                 className="min-w-full h-full absolute -z-10 blur-2xl backdrop-brightness-0"
                 alt=""
               />
@@ -93,7 +93,7 @@ const Carousel = () => {
 
               <div className="h-[240px] overflow-hidden flex px-[15px] py-[15px] pt-[20px]">
                 <img
-                  src={item.image}
+                  src={`http://127.0.0.1:8000${item.bookImage}`}
                   alt=""
                   className="w-[150px] max-[446px]:w-[120px] h-[210px] rounded-lg"
                 />

@@ -12,6 +12,8 @@ const Publish = () => {
   const [currentimage, setcurrentimage] = useState(
     "https://img.freepik.com/free-vector/blank-book-cover-white-vector-illustration_1284-41903.jpg?semt=ais_hybrid&w=740"
   );
+
+  const [file, setFile] = useState(null);
   const [url, seturl] = useState(false);
   const [drop, setdrop] = useState(false);
   const [browse, setbrowse] = useState(false);
@@ -29,22 +31,16 @@ const Publish = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
 
-    let data = e.target;
-    let formData = new FormData(data);
-    formData = Object.fromEntries(formData.entries());
-    formData.image = currentimage;
+    let formData = new FormData(e.target);
 
-    let DataPost = {
-      title: formData.title,
-      category: formData.category,
-      gender: formData.gender,
-      image: formData.image,
-      price: formData.price,
-      description: formData.description,
-    };
+    if (file) {
+      // for the drop image option
+      formData.delete("bookImage");
+      formData.append("bookImage", file);
+    }
 
     try {
-      sendData(DataPost, "user/publish", seterror, navigate);
+      sendData(formData, "user/publish", seterror, navigate);
     } catch (error) {
       console.log("Error While Giving Data", error.message);
     }
@@ -58,11 +54,8 @@ const Publish = () => {
     let data = e.target.files[0];
 
     if (data) {
-      let reader = new FileReader();
-      reader.readAsDataURL(data);
-      reader.onloadend = () => {
-        setcurrentimage(reader.result);
-      };
+      setFile(data);
+      setcurrentimage(URL.createObjectURL(data));
     }
   };
 
@@ -74,15 +67,29 @@ const Publish = () => {
     let data = e.dataTransfer.files[0];
 
     if (data) {
-      let reader = new FileReader();
-
-      reader.readAsDataURL(data);
-
-      reader.onloadend = () => {
-        const base64 = reader.result;
-        setcurrentimage(base64);
-      };
+      setFile(data);
+      setcurrentimage(URL.createObjectURL(data));
     }
+  };
+
+  // ================== DOWNLOADING IMAGE FROM URL ============================
+
+  const urlToFile = async (url) => {
+    let data = await fetch(url);
+    let blob = await data.blob();
+    let filename = url.split("/").pop().split("?")[0]; //"https://example.com/images/bookcover.jpg?size=large"
+
+    let ext = "";
+    if (filename.includes(".")) {
+      ext = filename.substring(filename.lastIndexOf("."));
+    } else {
+      ext = "." + blob.type.split("/")[1]; // "image/jpeg"
+      filename = filename + ext;
+    }
+
+    let fileinfo = new File([blob], filename, { type: blob.type });
+    setcurrentimage(URL.createObjectURL(fileinfo));
+    setFile(fileinfo);
   };
 
   return (
@@ -121,6 +128,7 @@ const Publish = () => {
         handledrop={handledrop}
         handleclick={handleclick}
         currentimage={currentimage}
+        urlToFile={urlToFile}
         setcurrentimage={setcurrentimage}
       />
     </div>

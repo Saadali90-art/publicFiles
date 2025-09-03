@@ -2,8 +2,11 @@ import React from "react";
 import { CgGenderFemale, CgGenderMale } from "react-icons/cg";
 import { FaEye } from "react-icons/fa";
 import { TbCategoryPlus } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 const NovelDetails = ({ moreInfo }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* ======================= NOVEL INFORAMTION ============================ */}
@@ -24,7 +27,7 @@ const NovelDetails = ({ moreInfo }) => {
                 Original
               </p>
               <img
-                src={moreInfo.image}
+                src={`http://127.0.0.1:8000${moreInfo.bookImage}`}
                 alt="Book Cover Image"
                 className="w-full h-full rounded-lg"
               />
@@ -89,14 +92,11 @@ const NovelDetails = ({ moreInfo }) => {
                 style={{ fontFamily: "Montserrat, sans-serif" }}
                 className="absolute bottom-1 flex flex-row gap-x-[10px]"
               >
-                <button className="bg-red-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
-                  Read
-                </button>
-                <button className="bg-blue-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
+                <button
+                  onClick={() => navigate("/user/cart", { state: moreInfo })}
+                  className="bg-blue-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer"
+                >
                   Add To Cart
-                </button>
-                <button className="bg-purple-500 px-[9px] py-[7px] font-[500] rounded-lg text-white hover:bg-white hover:text-black border-transparent border-[1px] hover:border-black tranistion-all duration-500 ease hover:font-[500] cursor-pointer">
-                  Download Now
                 </button>
               </div>
             </div>

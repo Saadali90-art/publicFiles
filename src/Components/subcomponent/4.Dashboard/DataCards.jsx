@@ -16,7 +16,7 @@ const DataCards = ({ item, index, navigate }) => {
           }
         >
           <img
-            src={item.image}
+            src={`http://localhost:8000${item.bookImage}`}
             alt="Image Not Found"
             className="w-full h-[340px]  hover:scale-105 hover:rounded-t-4xl transition-all duration-500 ease"
           />
@@ -30,7 +30,7 @@ const DataCards = ({ item, index, navigate }) => {
         </div>
 
         <div className="w-full flex justify-between items-center pt-[5px] ">
-          <p className="text-orange-400 font-[700] text-[19px]">
+          <p className="text-orange-400 font-[700] text-[19px] w-[160px] truncate">
             ${item.price}
           </p>
 

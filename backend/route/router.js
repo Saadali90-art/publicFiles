@@ -18,6 +18,10 @@ import Titles from "../controller/Books/Titles.js";
 import Search from "../controller/Books/Search.js";
 import CategoryData from "../controller/Books/CategoryData.js";
 import accountInfo from "../controller/UserInfo/AccountInfo.js";
+import CartItems from "../controller/Cart Items/Cart.js";
+import Items from "../controller/Cart Items/CartItems.js";
+import upload from "../multer/multer.js";
+import removeCartItem from "../controller/Cart Items/RemoveItem.js";
 
 let router = express.Router();
 
@@ -31,7 +35,7 @@ router.post("/login", Login);
 
 router.get("/user/dashboard", getPublish);
 
-router.post("/user/publish", PublishOne);
+router.post("/user/publish", upload.single("bookImage"), PublishOne);
 
 router.get("/protect", ProtectedPages);
 
@@ -61,6 +65,19 @@ router.get("/allBooks", Search);
 
 router.get("/myaccount", SignInData);
 
-router.post("/changeinfo", accountInfo);
+router.post(
+  "/changeinfo",
+  upload.fields([
+    { name: "profileImage", maxCount: 1 },
+    { name: "coverImage", maxCount: 1 },
+  ]),
+  accountInfo
+);
+
+router.post("/cart", CartItems);
+
+router.get("/cartitems", Items);
+
+router.delete("/removeitem", removeCartItem);
 
 export default router;

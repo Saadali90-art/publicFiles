@@ -78,7 +78,7 @@ const NavBar = ({
               Publish
             </button>
             <button
-              onClick={() => navigate("/user/cart")}
+              onClick={() => navigate("/user/cart", { state: "Only Show" })}
               className=" mr-[18px]  max-[789px]:mr-[9px] max-[789px]:text-[13px] text-[15px] font-[550] cursor-pointer underline decoration-transparent decoration-[3px] underline-offset-[15px] hover:decoration-blue-600 hover:underline-offset-[5px] transition-all duration-200 ease  "
             >
               My Cart
@@ -109,10 +109,10 @@ const NavBar = ({
               </button>
             </div>
           ) : (
-            <div className="w-[180px] flex flex-row-reverse justify-between items-center">
+            <div className="w-[180px] max-[589px]:w-[100px] max-[399px]:w-[95px] max-[336px]:w-[85px] flex flex-row-reverse justify-between items-center">
               <button
                 onClick={() => navigate("/signup")}
-                className="text-white bg-linear-to-br from-blue-600 to-purple-600 capitalize rounded-lg px-[8px] py-[8px] font-[500] cursor-pointer text-[14.5px] active:scale-95 active:brightness-70"
+                className="text-white bg-linear-to-br from-blue-600 to-purple-600 capitalize rounded-lg px-[8px] py-[8px] font-[500] cursor-pointer text-[14.5px] active:scale-95 active:brightness-70 max-[768px]:text-[15px] max-[336px]:text-[12px]  max-[768px]:py-[4px]"
               >
                 Sign in
               </button>
@@ -124,15 +124,19 @@ const NavBar = ({
                     : "visible",
                 }}
                 onClick={() => navigate("/login")}
-                className=" text-[15px] font-[600] cursor-pointer underline decoration-transparent decoration-[3px] underline-offset-[15px] hover:decoration-blue-600 hover:underline-offset-[5px] transition-all duration-200 ease  flex items-center justify-center"
+                className=" text-[15px] font-[600] cursor-pointer underline decoration-transparent decoration-[3px] underline-offset-[15px] hover:decoration-blue-600 hover:underline-offset-[5px] transition-all duration-200 ease  flex items-center justify-center max-[589px]:hidden max-[768px]:text-[15px] max-[336px]:text-[12px]"
               >
                 Log In
               </button>
               <button
-                className="w-[30px] h-[30px] border-[1px] border-gray-400 flex items-center justify-center rounded-[50%] cursor-pointer"
+                className="w-[30px] h-[30px] max-[768px]:w-[25px] max-[768px]:h-[25px] max-[336px]:w-[22px] max-[336px]:h-[22px] border-[1px] border-gray-400 flex items-center justify-center rounded-[50%] cursor-pointer"
                 onClick={() => setSearch(true)}
               >
-                <IoSearch size={20} color="#9ca3af" />
+                <IoSearch
+                  size={20}
+                  className="max-[768px]:w-[15px] max-[768px]:h-[15px] max-[336px]:w-[12px] max-[336px]:h-[12px]"
+                  color="#9ca3af"
+                />
               </button>
             </div>
           )}

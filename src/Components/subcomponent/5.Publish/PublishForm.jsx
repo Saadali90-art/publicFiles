@@ -1,7 +1,3 @@
-import React, { useEffect } from "react";
-import { RxDragHandleVertical } from "react-icons/rx";
-import { TbBrandComedyCentral } from "react-icons/tb";
-
 const PublishForm = ({
   handlesubmit,
   url,
@@ -14,13 +10,17 @@ const PublishForm = ({
   handledrop,
   handleclick,
   currentimage,
-  setcurrentimage,
+  urlToFile,
 }) => {
   return (
     <>
       <div className="w-[100%]  ">
         <div className="w-[45%] max-[890px]:w-[50%] max-[763px]:w-[60%] max-[637px]:w-[80%] max-[471px]:w-[95%] mx-auto h-[500px] pt-[90px] ">
-          <form className="w-full flex flex-col" onSubmit={handlesubmit}>
+          <form
+            className="w-full flex flex-col"
+            onSubmit={handlesubmit}
+            encType="multipart/form-data"
+          >
             {/* =========================== BOOK NAME SECTION ======================================= */}
 
             <p className="text-[17px] pb-[10px] ">Book Name</p>
@@ -182,16 +182,20 @@ const PublishForm = ({
               style={{
                 opacity: url ? 100 : 0,
                 height: url ? "auto" : "0px",
-                transition: "opacity ease 1s, height ease 1s",
+                transform: url ? "translateX(0px)" : "translateX(-1200px)",
+                transition: url
+                  ? "opacity ease 1s , height ease 1s  "
+                  : "opacity 1s ease, height 1s ease, transform 1s ease",
                 transitionDelay: "200ms",
               }}
             >
               <p className="text-[17px] pb-[14px]">Enter Image URL</p>
               <input
                 type="text"
+                name="bookImage"
                 placeholder="Enter Image URL.."
                 className="w-full mx-auto outline-black outline-[1px] hover:outline-blue-400 focus:outline-blue-400  rounded-lg px-[10px] py-[5px] transition-all duration-400 ease"
-                onChange={(e) => setcurrentimage(e.target.value)}
+                onChange={(e) => urlToFile(e.target.value)}
               />
             </div>
 
@@ -228,8 +232,8 @@ const PublishForm = ({
             >
               <input
                 type="file"
-                accept="image/*"
                 onChange={handleclick}
+                name="bookImage"
                 className="absolute z-10 border-[1px] rounded-[10px] border-black px-[10px] py-[4px] w-[230px] outline-none cursor-pointer"
                 style={{
                   opacity: browse ? 1 : 0,
@@ -268,7 +272,7 @@ const PublishForm = ({
                 }}
                 className="text-red-500 mx-auto my-[5px] font-[500]"
               >
-                All Data Fields Must Be Filled
+                Data Not Present
               </p>
             </div>
 

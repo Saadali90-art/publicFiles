@@ -1,11 +1,10 @@
-import { jwtDecode } from "jwt-decode";
-const accountData = async (link, data) => {
+const accountData = async (link, dataobj) => {
   let token = localStorage.getItem("tokenuserin");
 
   let reqopt = {
     method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json", tokeninfo: token },
+    body: JSON.stringify(dataobj),
+    headers: { tokeninfo: token },
   };
 
   let result = await fetch(`http://127.0.0.1:8000/${link}`, reqopt);

@@ -6,7 +6,7 @@ import DataCards from "./subcomponent/4.Dashboard/DataCards.jsx";
 
 const SearchedData = () => {
   const { id } = useParams();
-  const [search, setSearch] = useState(id);
+  const [search, setSearch] = useState(id || "");
   const [searchData, setSearchData] = useState([]);
   const [totalData, setTotalData] = useState([]);
   const navigate = useNavigate();

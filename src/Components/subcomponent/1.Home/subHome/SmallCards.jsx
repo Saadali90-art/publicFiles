@@ -10,7 +10,7 @@ const SmallCards = ({ index, item, handlemore }) => {
       >
         <div className="w-full overflow-hidden rounded-sm">
           <img
-            src={item.image}
+            src={`http://127.0.0.1:8000${item.bookImage}`}
             alt={index + 1}
             className="w-full h-[140px] rounded-sm hover:scale-110 transition-all duration-200 ease"
           />

@@ -107,7 +107,7 @@ const Categories = () => {
                 >
                   <div className="w-[30%] max-[936px]:w-[20%] max-[662px]:w-[25%] max-[542px]:min-w-[30%] max-[453px]:min-w-[35%] max-[375px]:min-w-[40%] h-full rounded-lg overflow-hidden">
                     <img
-                      src={item.image}
+                      src={`http://127.0.0.1:8000${item.bookImage}`}
                       alt=""
                       className="w-full h-full hover:scale-105 transition ease duration-250 "
                     />

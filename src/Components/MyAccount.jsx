@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navigation from "./subcomponent/1.Home/Navigation.jsx";
-import CoverImage from "../assets/MyAccount/CoverImage.avif";
 import SignInData from "./Requests/Home Requests/SignInData.js";
 import specificBooks from "./Requests/DashBoard/SpecificDashBoard.js";
 import accountData from "./Requests/Account Info/AccountInfo.js";
@@ -12,14 +11,16 @@ import UpdateInfo from "./subcomponent/User Account/UpdateInfo.jsx";
 
 const MyAccount = () => {
   const [accountInfo, setAccountInfo] = useState(null);
-  const [coverImage, setCoverImage] = useState(null);
-  const [profileImage, setProfileImage] = useState(null);
   const [publisherBooks, setPublisherBooks] = useState([]);
   const [edit, setEdit] = useState(false);
   const [updateInfo, setUpdateInfo] = useState(null);
   const [currentdot, setcurrentdot] = useState(0);
   const [loading, setloading] = useState(true);
   const [error, setError] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [cover, setCover] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
 
   const token = localStorage.getItem("tokenuserin");
   const navigate = useNavigate();
@@ -80,44 +81,24 @@ const MyAccount = () => {
     let file = e.target.files[0];
 
     if (file) {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onloadend = () => {
-        let base64Url = reader.result;
-
-        setCoverImage(base64Url);
-        setUpdateInfo({ ...updateInfo, coverimage: base64Url });
-      };
+      setCoverImage(URL.createObjectURL(file));
+      setCover(file);
     }
   };
 
   const handleProfile = (e) => {
     let file = e.target.files[0];
 
-    if (file) {
-      let reader = new FileReader();
-
-      reader.readAsDataURL(file);
-
-      reader.onloadend = () => {
-        let base64 = reader.result;
-
-        setProfileImage(base64);
-        setUpdateInfo({ ...updateInfo, image: base64 });
-      };
-    }
+    setProfileImage(URL.createObjectURL(file));
+    setProfile(file);
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     let formEntry = new FormData(e.target);
-    formEntry = Object.fromEntries(formEntry.entries());
-    formEntry.coverimage = coverImage ?? accountInfo.coverimage;
-    formEntry.image = profileImage ?? accountInfo.image;
-
-    setUpdateInfo(formEntry);
+    formEntry.append("profileImage", profile ?? accountInfo.profile);
+    formEntry.append("coverImage", cover ?? accountInfo.cover);
 
     try {
       if (formEntry !== null) {
@@ -125,7 +106,7 @@ const MyAccount = () => {
 
         console.log(info);
 
-        if (formEntry?.name !== accountInfo.name) {
+        if ((updateInfo?.name ?? accountInfo.name) !== accountInfo.name) {
           if (info.token) {
             localStorage.setItem("tokenuserin", info.token);
           }
@@ -164,7 +145,6 @@ const MyAccount = () => {
             <Images
               accountInfo={accountInfo}
               coverImage={coverImage}
-              CoverImage={CoverImage}
               edit={edit}
               handleCover={handleCover}
               handleProfile={handleProfile}

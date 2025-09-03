@@ -1,6 +1,23 @@
 import jsonwebtoken from "jsonwebtoken";
 import SignModel from "../../Model/SignInModel.js";
 
+const updateInfo = async (userData, data, coverImageinfo, profileImageinfo) => {
+  return await SignModel.updateOne(
+    { name: userData.name, userId: userData.userId },
+    {
+      $set: {
+        name: data?.name?.trim(),
+        gender: data.gender,
+        location: data.location,
+        email: data.email,
+        about: data.about,
+        coverImage: coverImageinfo,
+        profileImage: profileImageinfo,
+      },
+    }
+  );
+};
+
 const accountInfo = async (req, res) => {
   let token = req.headers.tokeninfo;
   let data = req.body;
@@ -27,6 +44,18 @@ const accountInfo = async (req, res) => {
       userId: tokenData.userId,
     });
 
+    let coverImageinfo = userData.coverImage;
+    let profileImageinfo = userData.profileImage;
+
+    if (req.files) {
+      if (req.files.coverImage) {
+        coverImageinfo = `/uploads/coverImage/${req.files.coverImage[0].filename}`;
+      }
+      if (req.files.profileImage) {
+        profileImageinfo = `/uploads/profileImage/${req.files.profileImage[0].filename}`;
+      }
+    }
+
     if (userData === null)
       return res.status(400).json({ message: "User Does Not Exist" });
 
@@ -35,20 +64,7 @@ const accountInfo = async (req, res) => {
     if (userData.email === data.email) {
       // ========= UPDATING DATA ============
 
-      let updateData = await SignModel.updateOne(
-        { name: userData.name, userId: userData.userId },
-        {
-          $set: {
-            name: data?.name?.trim(),
-            gender: data.gender,
-            location: data.location,
-            email: data.email,
-            about: data.about,
-            image: data.image,
-            coverimage: data.coverimage,
-          },
-        }
-      );
+      await updateInfo(userData, data, coverImageinfo, profileImageinfo);
 
       if (
         data?.name?.trim() === "" ||
@@ -63,25 +79,10 @@ const accountInfo = async (req, res) => {
     } else {
       let email = await SignModel.findOne({ email: data.email });
 
-      console.log(email);
-
       if (email === null) {
         // ========= UPDATING DATA ============
 
-        let updateData = await SignModel.updateOne(
-          { name: userData.name, userId: userData.userId },
-          {
-            $set: {
-              name: data?.name?.trim(),
-              gender: data.gender,
-              location: data.location,
-              email: data.email,
-              about: data.about,
-              image: data.image,
-              coverimage: data.coverimage,
-            },
-          }
-        );
+        await updateInfo(userData, data, coverImageinfo, profileImageinfo);
 
         if (
           data?.name?.trim() === "" ||

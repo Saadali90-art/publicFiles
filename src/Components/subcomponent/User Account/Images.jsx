@@ -1,30 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaCamera } from "react-icons/fa";
 import user from "../../../assets/MyAccount/user.svg";
+import CoverImage from "../../../assets/MyAccount/CoverImage.avif";
 
 const Images = ({
   accountInfo,
   coverImage,
-  CoverImage,
+
   edit,
   handleCover,
   handleProfile,
   profileImage,
 }) => {
+  let profileImageUrl = `http://127.0.0.1:8000${accountInfo.profileImage}`;
+  let coverImageUrl = `http://127.0.0.1:8000${accountInfo.coverImage}`;
+
   return (
     <>
       {/* ====================== COVER PHOTO =========================== */}
 
       <div className=" w-[100%]  h-[300px] relative ">
-        {accountInfo.coverimage === null && coverImage === null ? (
+        {accountInfo.coverImage === null && coverImage === null ? (
           <img className="w-full h-full brightness-90" src={CoverImage} />
         ) : coverImage !== null ? (
           <img className="w-full h-full brightness-90" src={coverImage} />
         ) : (
-          <img
-            className="w-full h-full brightness-90"
-            src={accountInfo.coverimage}
-          />
+          <img className="w-full h-full brightness-90" src={coverImageUrl} />
         )}
 
         {/* ==================== IMAGE CHANGE BUTTON ======================== */}
@@ -44,12 +45,7 @@ const Images = ({
             </p>
           </div>
 
-          <input
-            type="file"
-            https:accept="image/*"
-            hidden
-            onChange={handleCover}
-          />
+          <input type="file" name="coverImage" hidden onChange={handleCover} />
         </label>
       </div>
       {/* ============== PROFILE IMAGE =========== */}
@@ -61,15 +57,12 @@ const Images = ({
         }}
         className="w-[200px] max-[491px]:w-[180px] max-[393px]:w-[150px] h-[200px]  max-[491px]:h-[180px]  max-[393px]:h-[150px] max-[453px]:mt-[15px] max-[453px]:left-[5px] brightness-100 absolute z-10 left-[20px] border-[6px] border-white bg-gray-400 rounded-[50%]"
       >
-        {accountInfo.image === null && profileImage === null ? (
+        {accountInfo.profileImage === null && profileImage === null ? (
           <img src={user} className="w-full h-full rounded-[50%]" />
         ) : profileImage !== null ? (
           <img src={profileImage} className="w-full h-full rounded-[50%]" />
         ) : (
-          <img
-            src={accountInfo.image}
-            className="w-full h-full rounded-[50%]"
-          />
+          <img src={profileImageUrl} className="w-full h-full rounded-[50%]" />
         )}
 
         {/* ==================== IMAGE CHANGE BUTTON ======================== */}
@@ -82,7 +75,12 @@ const Images = ({
           }}
           className="absolute cursor-pointer rounded-[50%] bg-blue-500 p-[10px] bottom-[5px] right-[5px]"
         >
-          <input type="file" accept="image/*" hidden onChange={handleProfile} />
+          <input
+            type="file"
+            name="profileImage"
+            hidden
+            onChange={handleProfile}
+          />
           <FaCamera size={25} color="white" />
         </label>
       </div>

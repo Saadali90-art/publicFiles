@@ -3,8 +3,8 @@ const sendData = async (data, link, seterror, navigate) => {
 
   let reqOpt = {
     method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json", tokenuser: token },
+    body: data,
+    headers: { tokenuser: token },
   };
 
   let result = await fetch(`http://127.0.0.1:8000/${link}`, reqOpt);

@@ -7,11 +7,11 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phone: { type: Number, required: true },
   date: { type: Date, default: Date.now },
-  image: {
+  profileImage: {
     type: String,
     default: null,
   },
-  coverimage: {
+  coverImage: {
     type: String,
     default: null,
   },

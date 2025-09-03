@@ -24,6 +24,7 @@ const UpdateInfo = ({
 
         <form
           onSubmit={handleFormSubmit}
+          encType="multipart/form-data"
           className="container w-[60%] max-[806px]:w-[70%] max-[697px]:w-[80%] max-[588px]:w-[100%] min-h-[400px] mx-auto flex flex-col max-[491px]:items-center gap-y-[10px] overflow-hidden "
           style={{ fontFamily: "Archivo, sans-serif" }}
         >

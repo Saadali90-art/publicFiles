@@ -55,8 +55,12 @@ const SideBar = ({ sideBar, setSideBar, userInfo }) => {
             <button className="flex pl-[5px] my-[2px] cursor-pointer py-[10px] w-full hover:bg-gray-200 rounded-md text-[16px] font-[400]">
               <Link to={"/user/dashboard"}> Dashboard</Link>
             </button>
-            <button className="flex pl-[5px] my-[2px] cursor-pointer py-[10px] w-full hover:bg-gray-200 rounded-md text-[16px] font-[400]">
-              <Link to={"/user/cart"}>My Cart</Link>
+
+            <button
+              onClick={() => navigate("/user/cart", { state: "Only Show" })}
+              className="flex pl-[5px] my-[2px] cursor-pointer py-[10px] w-full hover:bg-gray-200 rounded-md text-[16px] font-[400]"
+            >
+              <p>My Cart</p>
             </button>
 
             <button className="flex pl-[5px] my-[2px] cursor-pointer py-[10px] w-full hover:bg-gray-200 rounded-md text-[16px] font-[400]">

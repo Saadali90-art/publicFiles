@@ -3,7 +3,7 @@ const accountData = async (link, dataobj) => {
 
   let reqopt = {
     method: "POST",
-    body: JSON.stringify(dataobj),
+    body: dataobj,
     headers: { tokeninfo: token },
   };
 

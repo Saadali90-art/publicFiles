@@ -104,8 +104,6 @@ const MyAccount = () => {
       if (formEntry !== null) {
         const info = await accountData("changeinfo", formEntry);
 
-        console.log(info);
-
         if ((updateInfo?.name ?? accountInfo.name) !== accountInfo.name) {
           if (info.token) {
             localStorage.setItem("tokenuserin", info.token);

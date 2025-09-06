@@ -1,4 +1,4 @@
-import Publish from "../Model/PublishModel.js";
+import Publish from "../../Model/PublishModel.js";
 
 const newArrivals = async (req, res) => {
   try {

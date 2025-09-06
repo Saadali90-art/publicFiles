@@ -88,6 +88,8 @@ const Publish = () => {
     }
 
     let fileinfo = new File([blob], filename, { type: blob.type });
+
+    console.log(fileinfo);
     setcurrentimage(URL.createObjectURL(fileinfo));
     setFile(fileinfo);
   };

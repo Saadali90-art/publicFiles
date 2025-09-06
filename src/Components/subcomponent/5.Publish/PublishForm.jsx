@@ -186,14 +186,13 @@ const PublishForm = ({
                 transition: url
                   ? "opacity ease 1s , height ease 1s  "
                   : "opacity 1s ease, height 1s ease, transform 1s ease",
-                transitionDelay: "200ms",
               }}
             >
               <p className="text-[17px] pb-[14px]">Enter Image URL</p>
               <input
                 type="text"
                 name="bookImage"
-                placeholder="Enter Image URL.."
+                placeholder="Please Enter Valid Image Address.."
                 className="w-full mx-auto outline-black outline-[1px] hover:outline-blue-400 focus:outline-blue-400  rounded-lg px-[10px] py-[5px] transition-all duration-400 ease"
                 onChange={(e) => urlToFile(e.target.value)}
               />

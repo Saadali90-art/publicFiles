@@ -1,5 +1,6 @@
 import jsonwebtoken from "jsonwebtoken";
 import SignModel from "../../Model/SignInModel.js";
+import Comment from "../../Model/UsersComments.js";
 
 const updateInfo = async (userData, data, coverImageinfo, profileImageinfo) => {
   return await SignModel.updateOne(
@@ -49,10 +50,10 @@ const accountInfo = async (req, res) => {
 
     if (req.files) {
       if (req.files.coverImage) {
-        coverImageinfo = `/uploads/coverImage/${req.files.coverImage[0].filename}`;
+        coverImageinfo = `/uploads/${data.name}/${req.files.coverImage[0].filename}`;
       }
       if (req.files.profileImage) {
-        profileImageinfo = `/uploads/profileImage/${req.files.profileImage[0].filename}`;
+        profileImageinfo = `/uploads/${data.name}/${req.files.profileImage[0].filename}`;
       }
     }
 
@@ -65,6 +66,14 @@ const accountInfo = async (req, res) => {
       // ========= UPDATING DATA ============
 
       await updateInfo(userData, data, coverImageinfo, profileImageinfo);
+
+      await Comment.updateMany(
+        {
+          name: userData.name,
+          userId: userData.userId,
+        },
+        { $set: { profileImage: profileImageinfo } }
+      );
 
       if (
         data?.name?.trim() === "" ||
@@ -84,6 +93,14 @@ const accountInfo = async (req, res) => {
 
         await updateInfo(userData, data, coverImageinfo, profileImageinfo);
 
+        await Comment.updateMany(
+          {
+            name: userData.name,
+            userId: userData.userId,
+          },
+          { $set: { profileImage: profileImageinfo } }
+        );
+
         if (
           data?.name?.trim() === "" ||
           data?.name?.trim() === null ||
@@ -100,7 +117,7 @@ const accountInfo = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    res.status(400).send("Error In the Account Informations");
+    res.status(400).json({ message: "Error In the Account Informations" });
   }
 };
 export default accountInfo;

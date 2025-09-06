@@ -5,11 +5,13 @@ import Cards from "./subcomponent/1.Home/subHome/Cards.jsx";
 import MoreDetail from "./Requests/MoreDetails/More.js";
 import NovelDetails from "./subcomponent/7.MoreDetails/NovelDetails.jsx";
 import Comments from "./subcomponent/7.MoreDetails/Comments.jsx";
+import Footer from "./subcomponent/1.Home/Footer.jsx";
+import cartsData from "./Requests/Cart/CartInfo.js";
 
 const MoreDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  let data = location.state;
+  let incomingData = location.state;
 
   const [moreInfo, setMoreInfo] = useState(null);
   const [youLike, setYouLike] = useState([]);
@@ -25,15 +27,17 @@ const MoreDetails = () => {
       setMoreInfo(moreDetails);
     };
 
-    fetchData({ id: data }, "getmoreinfo");
-  }, []);
+    fetchData({ id: incomingData }, "getmoreinfo");
+  }, [incomingData]);
 
   //======================== GETTING THE LIKED DATA  =============================
 
   useEffect(() => {
     const fetchData = async (data, link) => {
       let youLiked = await MoreDetail(data, link);
-      setYouLike(youLiked.message);
+      setYouLike(
+        youLiked.message.filter((item) => item._id !== moreInfo._id).slice(0, 6)
+      );
     };
 
     fetchData({ category: moreInfo?.category }, "youlike");
@@ -80,7 +84,18 @@ const MoreDetails = () => {
   }, [moreInfo]);
 
   const handlemore = (item) => {
-    console.log(item);
+    if (item !== null) {
+      location.reload;
+      navigate("/user/dashboard/more", { state: item._id });
+    }
+  };
+
+  const handleLikes = async (item) => {
+    let token = localStorage.getItem("tokenuserin");
+
+    let info = await cartsData("likes", { item, token });
+
+    await getComments({ title: moreInfo?.title }, "allcomments");
   };
 
   return (
@@ -89,19 +104,29 @@ const MoreDetails = () => {
 
       <Navigation />
 
-      {/* ======================= SPECIFIC NOVEK DETAILS =========================== */}
+      {/* ======================= SPECIFIC NOVEL DETAILS =========================== */}
 
       <NovelDetails moreInfo={moreInfo} />
 
       {/* ============================== YOU MAY ALSO LIKE ============================= */}
 
-      <div className="w-[100%] h-[420px] mt-[30px] bg-gray-200">
-        <div className="w-[80%] h-full my-[20px] mx-auto ">
-          <p className="text-[24px] font-[700] py-[20px]">You May Also Like</p>
+      <div className="container max-w-[100%] bg-[#e6e5e5] min-h-[420px] mt-[20px]">
+        <div className="container w-[70%] max-[1170px]:w-[80%]  max-[924px]:w-[90%] relative mx-auto ">
+          <h1
+            className="text-[24px] font-[700] py-[20px]"
+            style={{ fontFamily: "Archivo, sans-serif" }}
+          >
+            You May Also Like
+          </h1>
 
-          <div className="flex flex-wrap justify-between ">
+          <div className="flex min-h-[320px]  flex-wrap justify-evenly gap-x-[10px] gap-y-[15px] pb-[20px]">
             {youLike.map((item, index) => (
-              <Cards handlemore={handlemore} item={item} key={index} />
+              <Cards
+                handlemore={handlemore}
+                item={item}
+                index={index}
+                key={index}
+              />
             ))}
           </div>
         </div>
@@ -116,7 +141,10 @@ const MoreDetails = () => {
         handlecomment={handlecomment}
         comments={comments}
         setCommentValue={setCommentValue}
+        handleLikes={handleLikes}
       />
+
+      <Footer />
     </div>
   );
 };

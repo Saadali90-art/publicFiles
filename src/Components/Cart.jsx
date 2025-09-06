@@ -3,12 +3,9 @@ import { useLocation } from "react-router-dom";
 import "../animation.css";
 import SignInData from "./Requests/Home Requests/SignInData.js";
 import cartsData from "./Requests/Cart/CartInfo.js";
-
 import removeItem from "./Requests/Cart/RemoveCartItem.js";
 import Navigation from "./subcomponent/Cart/Navigation.jsx";
-
 import CartList from "./subcomponent/Cart/CartList.jsx";
-import { TbHexagonalPyramidPlus } from "react-icons/tb";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);

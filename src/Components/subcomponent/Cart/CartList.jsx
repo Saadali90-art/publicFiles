@@ -1,5 +1,6 @@
 import React from "react";
 import { FaMinus, FaPlus } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
 import minus from "../../../assets/Cart/minus.svg";
 
 const CartList = ({

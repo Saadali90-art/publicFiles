@@ -15,7 +15,7 @@ const SearchData = ({
 
   return (
     <div
-      className="w-full bg-pink-500 absolute top-0 h-[70px]"
+      className="w-full absolute top-0 h-[70px]"
       style={{
         opacity: search ? 1 : 0,
         transform: search ? "translateX(0)" : "translateX(1350px)",
@@ -47,7 +47,6 @@ const SearchData = ({
             </button>
           </div>
 
-          {/* 🔹 Suggestion Box Positioned Absolutely */}
           {suggestion && (
             <div className="absolute top-full left-0 w-full bg-white border-[2px] border-gray-200 rounded-md shadow-md mt-1 z-50">
               {suggestArr.length === 0 ? (
@@ -71,6 +70,7 @@ const SearchData = ({
           )}
         </div>
       </div>
+      <div className="flex-grow h-[2px] bg-[#eaeaea]"></div>
     </div>
   );
 };

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import user from "../../../assets/MyAccount/user.svg";
 
 const Comments = ({
   commentDiv,
@@ -7,13 +9,18 @@ const Comments = ({
   handlecomment,
   setCommentValue,
   comments,
+  handleLikes,
 }) => {
+  const [like, setLike] = useState(false);
+
   return (
     <>
-      <div className="w-[100%] min-h-[150px] mb-[30px] ">
-        <div className="w-[80%] h-full mx-auto">
+      <div className="w-[100%] min-h-[220px] bg-pink- mb-[30px] ">
+        <div className="container w-[70%] max-[1170px]:w-[80%] bg-yellow- max-[924px]:w-[90%]  mx-auto">
           <div className="w-full  flex justify-between items-center py-[20px]">
             <p className="text-[24px] font-[700] ">Comments</p>
+
+            {/* ==================== ADDING COMMENT BUTTONS ======================= */}
 
             {commentDiv ? (
               <div className="flex flex-row gap-x-[10px]">
@@ -41,13 +48,15 @@ const Comments = ({
             )}
           </div>
 
+          {/* ================= COMMENTS SHOWING =================== */}
+
           {commentDiv ? (
             <div
               className="flex flex-col relative z-10"
               style={{
-                height: commentDiv ? "200px" : "0px",
+                // height: commentDiv ? "200px" : "0px",
                 opacity: commentDiv ? 1 : 0,
-                transition: "height 700ms ease, opacity 700ms ease",
+                transition: " opacity 700ms ease",
               }}
             >
               <textarea
@@ -56,41 +65,87 @@ const Comments = ({
                 contentEditable
               ></textarea>
             </div>
-          ) : comments.length === 0 ? (
+          ) : comments.length <= 0 ? (
             <div
-              className="mx-auto w-full h-[70px] flex justify-center items-center"
+              className="mx-auto w-full h-[100px] flex justify-center items-center"
               style={{
-                height: commentDiv ? "0px" : "70px",
+                // height: commentDiv ? "0px" : "90px",
                 opacity: commentDiv ? 0 : 1,
-                transition: "height 700ms ease, opacity 700ms ease",
+                transition: " opacity 700ms ease",
               }}
             >
               <p className="text-[17px] font-[600] ">No Recent Comments</p>
             </div>
           ) : (
+            // ================= IF COMMENT PRESENT =================
+
             <div
               style={{
-                height: commentDiv ? "0px" : "70px",
+                // height: commentDiv ? "0px" : "70px",
                 opacity: commentDiv ? 0 : 1,
-                transition: "height 700ms ease, opacity 700ms ease",
+                transition: "opacity 700ms ease",
               }}
+              className="flex flex-col gap-y-[]"
             >
               {comments.map((item, index) => (
-                <div key={index} className=" my-[10px] ">
-                  <div className="flex items-center gap-x-[20px] ">
-                    <p className="capitalize text-[17px] text-[500] font-[600]">
-                      {item.name}
-                    </p>
+                <div key={index} className="min-h-[70px] ">
+                  {/* ============== TOP USER INFO SECTION=======================  */}
 
-                    {item.Author && (
-                      <p className="text-sm font-[600] bg-blue-500 px-[2px] rounded-md">
-                        Author
+                  <div className="flex items-center gap-x-[20px] mt-[10px]">
+                    {item.profileImage === null ? (
+                      <img
+                        src={user}
+                        className="w-[40px] h-[40px] rounded-[50%] "
+                      />
+                    ) : (
+                      <img
+                        className="w-[40px] h-[40px] rounded-[50%] "
+                        src={`http://127.0.0.1:8000${item.profileImage}`}
+                        alt=""
+                      />
+                    )}
+
+                    <div>
+                      <p className="capitalize text-[16px] font-[500]">
+                        {item.name}
                       </p>
+                      <p className="text-[12px] text-gray-800 ">
+                        {new Date(item.createdAt).toLocaleDateString("en-GB")}
+                      </p>
+                    </div>
+                    {item.Author && (
+                      <div className="flex flex-col items-center">
+                        <span className="bg-blue-500 text-white text-[11px] font-[500] px-[5px] py-[3px] rounded-md ">
+                          Author
+                        </span>
+
+                        <span className="w-[10px] h-[17px]"></span>
+                      </div>
                     )}
                   </div>
-                  <p>{item.commentValue}</p>
 
-                  <div className="grow bg-gray-300 h-[1px] my-[20px]"></div>
+                  {/* ================ COMMENT VALUE ======================== */}
+
+                  <div className="pt-[10px] w-full">
+                    <p className="text-[15px] ">{item.commentValue}</p>
+                  </div>
+
+                  <div className="flex w-full justify-end gap-x-[10px] mt-[3px]">
+                    {" "}
+                    <button
+                      onClick={() => handleLikes(item)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {item.likes > 0 ? (
+                        <AiFillLike className="w-[20px] h-[20px]" />
+                      ) : (
+                        <AiOutlineLike className="w-[20px] h-[20px]" />
+                      )}
+                    </button>
+                    <p>{item.likes}</p>
+                  </div>
+
+                  <div className="grow bg-gray-300 h-[1px] my-[5px]"></div>
                 </div>
               ))}
             </div>

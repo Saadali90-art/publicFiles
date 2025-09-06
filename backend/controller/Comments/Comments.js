@@ -2,16 +2,27 @@ import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
 import Publish from "../../Model/PublishModel.js";
 import Comment from "../../Model/UsersComments.js";
+import SignModel from "../../Model/SignInModel.js";
+import crypto from "crypto";
 
 const comment = async (req, res) => {
   let { token, commentValue, title } = req.body;
   let data = { token, commentValue, title };
 
-  let secretkey = process.env.secretkey;
+  let tokendata = await jsonwebtoken.verify(data.token, process.env.secretkey);
 
-  let tokendata = await jsonwebtoken.verify(data.token, secretkey); //=> name userid
+  let commentId = crypto
+    .createHash("sha256")
+    .update(JSON.stringify(data) + Date.now().toString())
+    .digest("hex")
+    .slice(0, 13);
 
   try {
+    let userData = await SignModel.findOne({
+      userId: tokendata.userId,
+      name: tokendata.name,
+    });
+
     let usersbook = await Publish.findOne({ title: data.title });
 
     let Author = null;
@@ -22,13 +33,17 @@ const comment = async (req, res) => {
       Author = false;
     }
 
-    await Comment.insertOne({
+    let commentData = {
       userId: tokendata.userId,
+      commentId,
       Author,
       name: tokendata.name,
       commentValue,
       title,
-    });
+      profileImage: userData.profileImage,
+    };
+
+    await Comment.insertOne(commentData);
     console.log("Comment Inserted To DB");
 
     res.status(200).json({ message: "Comment Added To DB" });

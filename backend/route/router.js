@@ -7,7 +7,7 @@ import PublishOne from "../controller/Books/Publish.js";
 import ProtectedPages from "../controller/UserInfo/Protect.js";
 import alsolike from "../controller/AlsoLike.js";
 import comment from "../controller/Comments/Comments.js";
-import newArrivals from "../controller/NewArrivals.js";
+import newArrivals from "../controller/Books/NewArrivals.js";
 import getComments from "../controller/Comments/getComments.js";
 import moreInfo from "../controller/Books/MoreInfo.js";
 import discoveritems from "../controller/Books/DiscoverItems.js";
@@ -22,6 +22,7 @@ import CartItems from "../controller/Cart Items/Cart.js";
 import Items from "../controller/Cart Items/CartItems.js";
 import upload from "../multer/multer.js";
 import removeCartItem from "../controller/Cart Items/RemoveItem.js";
+import likeComment from "../controller/Comments/LikeComment.js";
 
 let router = express.Router();
 
@@ -79,5 +80,7 @@ router.post("/cart", CartItems);
 router.get("/cartitems", Items);
 
 router.delete("/removeitem", removeCartItem);
+
+router.post("/likes", likeComment);
 
 export default router;

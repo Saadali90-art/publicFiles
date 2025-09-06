@@ -18,9 +18,9 @@ const WebNovels = ({ data }) => {
                 item.heading.toLowerCase()
               )}`}
             >
-              <div className="flex max-[450px]:gap-x-[10px] justify-between w-[96%] max-[776px]:w-full border-b-[1.3px] border-[#d8d8d8] ml-[20px] max-[776px]:ml-[0px]  py-[12px] hover:backdrop-brightness-95 ">
+              <div className="flex max-[450px]:gap-x-[10px] justify-between w-[96%] max-[776px]:w-full border-b-[1.3px] border-[#d8d8d8] ml-[20px] max-[776px]:ml-[0px]  py-[13px] hover:backdrop-brightness-95 ">
                 <div className=" w-[70%] max-[1346px]:w-[80%] max-[1098px]:w-[100%] max-[776px]:w-[68%]">
-                  <h1 className="text-[18px] font-[600] max-[410px]:text-[16px] ">
+                  <h1 className="text-[17px] font-[600] max-[410px]:text-[16px] ">
                     {item.heading}
                   </h1>
                   <p className="text-[12px] text-[#4e4e4e] max-[1098px]:text-justify max-[410px]:text-left">

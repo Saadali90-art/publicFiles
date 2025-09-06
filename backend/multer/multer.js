@@ -1,37 +1,58 @@
 import multer from "multer";
 import path from "path";
-import fs, { existsSync, rmdir } from "fs";
+import fs, { existsSync, rmdir, rmdirSync } from "fs";
+
+// ======== DELETES THE PREVIOUS FILES ================
+
+const clearFiles = (folder, fileName) => {
+  if (!fs.existsSync(folder)) return;
+
+  let files = fs.readdirSync(folder);
+
+  for (let eachfile of files) {
+    let parseName = path.parse(eachfile);
+    if (parseName.name === fileName) {
+      fs.unlinkSync(path.join(folder, eachfile));
+    }
+  }
+};
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     let folder = "uploads/";
+    let name = req.body.name;
 
     if (file.fieldname === "bookImage") {
       folder = "uploads/bookImage/";
-    }
+    } else {
+      folder = path.join("uploads", name);
 
-    if (file.fieldname === "coverImage") {
-      folder = "uploads/coverImage";
-      if (fs.existsSync(folder)) {
-        fs.rmdirSync(folder, { recursive: true });
+      if (!fs.existsSync(folder)) {
+        fs.mkdirSync(folder, { recursive: true });
       }
-      fs.mkdirSync(folder, { recursive: true });
-    }
-
-    if (file.fieldname === "profileImage") {
-      folder = "uploads/profileImage";
-      if (existsSync(folder)) {
-        fs.rmdirSync(folder, { recursive: true, force: true });
-      }
-      fs.mkdirSync(folder, { recursive: true });
     }
 
     cb(null, folder);
   },
   filename: (req, file, cb) => {
-    let ext = path.extname(file.originalname);
-    let uniqueName = Date.now() + ext;
-    cb(null, uniqueName);
+    let folder = path.join("uploads", req.body.name);
+    let fileInfo;
+    let extname = path.extname(file.originalname);
+
+    // === if the file is coverimage then first create the name and then run the function to delete the previous function
+
+    if (file.fieldname === "coverImage") {
+      fileInfo = "cover" + extname;
+      clearFiles(folder, path.parse(fileInfo).name);
+    } else if (file.fieldname === "profileImage") {
+      fileInfo = "profile" + extname;
+      clearFiles(folder, path.parse(fileInfo).name);
+    } else {
+      fileInfo = Date.now() + extname;
+      clearFiles(folder, path.parse(fileInfo).name);
+    }
+
+    cb(null, fileInfo);
   },
 });
 

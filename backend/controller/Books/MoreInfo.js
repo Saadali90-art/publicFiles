@@ -5,12 +5,13 @@ const moreInfo = async (req, res) => {
 
   try {
     let result = await Publish.findOne({ _id: id.id });
-    res.status(200).send(result);
 
     await Publish.updateOne(
       { _id: result.id },
       { $set: { views: result.views + 1 } }
     );
+
+    res.status(200).send(result);
   } catch (error) {
     console.log(error.message);
     res.status(404).send("Issue While Sending More Info");

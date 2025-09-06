@@ -46,7 +46,7 @@ const Carousel = () => {
       } else {
         setcurrent(current + 1);
       }
-    }, 200000);
+    }, 2000);
     return () => clearTimeout(time);
   });
 
@@ -79,7 +79,7 @@ const Carousel = () => {
                 transform: `translateX(-${current * slideWidth}px)`,
                 opacity: current === index ? 1 : 0,
                 cursor: "pointer",
-                transition: "transform 5ms linear ,opacity 400ms linear ",
+                transition: "transform 5ms linear ,opacity 400ms linear",
               }}
               className="min-w-full "
             >
@@ -92,13 +92,15 @@ const Carousel = () => {
               {/* ======================== INNER INFO =============================== */}
 
               <div className="h-[240px] overflow-hidden flex px-[15px] py-[15px] pt-[20px]">
-                <img
-                  src={`http://127.0.0.1:8000${item.bookImage}`}
-                  alt=""
-                  className="w-[150px] max-[446px]:w-[120px] h-[210px] rounded-lg"
-                />
+                <div className="w-[30%] max-[1663px]:w-[35%] max-[446px]:w-[120px] h-[210px]">
+                  <img
+                    src={`http://127.0.0.1:8000${item.bookImage}`}
+                    alt=""
+                    className="w-full max-[446px]:w-[120px] h-[210px] rounded-lg"
+                  />
+                </div>
 
-                <div className="pl-[10px] h-[210px] overflow-hidden">
+                <div className="w-[70%] max-[1663px]:w-[65%] pl-[10px] h-[210px] overflow-hidden">
                   <p
                     style={{
                       overflow: "hidden",
